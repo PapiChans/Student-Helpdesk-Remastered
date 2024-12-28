@@ -3,3 +3,4 @@
 - Project Initiation
 - Loaded Required Assets for Landing Page
 - Landing Page Created
+- Uploaded to GitHub
