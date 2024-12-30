@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Student HelpDesk</title>
+    <title>Student Help Desk</title>
 
 
     <!-- App favicon -->
@@ -40,22 +39,13 @@
                         <a href="#home" class="nav-link" id="scrollElement">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#about" class="nav-link">About</a>
+                        <a href="#services" class="nav-link">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#features" class="nav-link">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#clients" class="nav-link">Clients</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#pricing" class="nav-link">Plans</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#contact" class="nav-link">Contact</a>
+                        <a href="#" class="nav-link">Knowledgebase</a>
                     </li>
                 </ul>
-                <a href="#" class="btn btn-info btn-sm navbar-btn my-lg-0 my-2">Try it Free</a>
+                <a href="#" class="btn btn-info btn-sm navbar-btn my-lg-0 my-2">Log In</a>
 
             </div>
         </div>
@@ -70,11 +60,11 @@
                 <div class="col-lg-8">
                     <div class="hero-3-content text-center py-5 px-4 mt-4">
                         <span class="con-border-top"></span>
-                        <h6 class="text-white text-uppercase mt-3 mb-2">- what we do</h6>
-                        <h1 class="hero-3-title text-white mb-lg-3 mb-2">Track Your Performance</h1>
-                        <p class="mb-4 text-white-50">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium <br> upto doloremque amet dolor It is a long established.</p>
-                        <a href="#" class="btn btn-info">Learn more<i class="mdi mdi-arrow-right ms-1"></i></a>
-                        <span class="con-border-bottom"></span>
+                        <div class="d-flex justify-content-center">
+                            <img src="{{ asset('images/homepage/favicon.ico')}}" alt="Logo" class="img-fluid" style="height: 100px;">
+                        </div>
+                        <h1 class="hero-3-title text-white mb-lg-3 mb-2">Student Help Desk</h1>
+                        <p class="mb-4 text-white-50"> Welcome to the Student Help Desk. We offer round-the-clock support for all your campus services.</p>
                     </div>
                 </div>
             </div>
@@ -85,15 +75,14 @@
     <!-- Hero section End -->
 
     <!-- Start About -->
-    <section class="section" id="about">
+    <section class="section" id="services">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <div class="text-center mb-5">
-                        <h3 class="mb-3">A digital web design studio creating modern & engaging online</h3>
+                        <h3 class="mb-3">What are the services we offer?</h3>
                         <p class="text-muted">
-                            If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages new common will be more regular than the existing If several is more
-                            simple and regular than that of the individual languages new common will be more regular than the existing
+                        We offer the following services to support students, clients, and alumni.
                         </p>
                     </div>
                 </div>
@@ -104,33 +93,33 @@
                 <div class="col-lg-4 col-md-4">
                     <div class="text-center p-4">
                         <div class="icons-xl mb-3">
-                            <i class="uim uim-ruler"></i>
+                            <i class="uim uim-bookmark"></i>
                         </div>
 
-                        <h5>Web Designing</h5>
-                        <p class="text-muted">If several languages coalesce, the grammar of the resulting language is more regular than that of the individual</p>
+                        <h5>Knowledge Base</h5>
+                        <p class="text-muted">Access our comprehensive knowledge base for quick answers to common questions and academic resources.</p>
                     </div>
                 </div>
 
                 <div class="col-lg-4 col-md-4">
                     <div class="text-center p-4">
                         <div class="icons-xl mb-3">
-                            <i class="uim uim-repeat"></i>
+                            <i class="uim uim-user-md"></i>
                         </div>
 
-                        <h5>Programming</h5>
-                        <p class="text-muted">To achieve this, it would be necessary to have uniform more common several languages coalesce</p>
+                        <h5>Ticket Support</h5>
+                        <p class="text-muted">Submit a ticket for document requests, academic concerns, and other campus-related transactions—all in one place.</p>
                     </div>
                 </div>
 
                 <div class="col-lg-4 col-md-4">
                     <div class="text-center p-4">
                         <div class="icons-xl mb-3">
-                            <i class="uim uim-airplay"></i>
+                            <i class="uim uim-clock"></i>
                         </div>
 
-                        <h5>Software Development</h5>
-                        <p class="text-muted">For science, music, sport, etc, Europe uses the same vocabulary only differ in their pronunciation.</p>
+                        <h5>24/7 Availability</h5>
+                        <p class="text-muted">We're always here for you. Access support and services at any time, day or night, all year round.</p>
                     </div>
                 </div>
             </div>
@@ -155,10 +144,7 @@
                     <div class="mt-4 mt-lg-0">
                         <h5 class="mb-4 font-18 text-white">Links</h5>
                         <ul class="list-unstyled footer-list-menu">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About us</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Contact us</a></li>
+                            <li><a href="#">Official Campus Website</a></li>
                         </ul>
                     </div>
                 </div>
@@ -186,9 +172,6 @@
                             <li class="list-inline-item">
                                 <a href="#"><i class="mdi mdi-linkedin"></i></a>
                             </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="mdi mdi-google-plus"></i></a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -206,7 +189,7 @@
                 <div class="col-lg-12">
                     <div class="text-center text-white-50">
                         <p class="mb-0">
-                            <script>document.write(new Date().getFullYear())</script>Student HelpDesk Remastered 
+                            <script>document.write(new Date().getFullYear())</script> Student HelpDesk Remastered 
                         </p>
                     </div>
                 </div>
