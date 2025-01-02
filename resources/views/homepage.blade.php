@@ -26,7 +26,7 @@
     <!--Navbar Start-->
     <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
         <div class="container">
-            <a class="navbar-brand logo" href="#">
+            <a class="navbar-brand logo" href="{{'/'}}">
                 <img src="{{ asset('images/homepage/logo-light.png')}}" alt="" class="logo-light" height="40" />
                 <img src="{{ asset('images/homepage/logo-dark.png')}}" alt="" class="logo-dark" height="40" />
             </a>
@@ -45,7 +45,7 @@
                         <a href="#" class="nav-link">Knowledgebase</a>
                     </li>
                 </ul>
-                <a href="#" class="btn btn-info btn-sm navbar-btn my-lg-0 my-2">Log In</a>
+                <a href="{{'/login'}}" class="btn btn-info btn-sm navbar-btn my-lg-0 my-2">Log In</a>
 
             </div>
         </div>
@@ -134,7 +134,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4">
-                    <a href="#" class="d-block mb-3">
+                    <a href="{{'/'}}" class="d-block mb-3">
                         <img src="{{ asset('images/homepage/favicon.ico')}}" alt="" height="60" />
                     </a>
                     <p>Student Helpdesk Remastered</p>
