@@ -19,3 +19,10 @@
 - Add Blank Page for Dashboard
 - Add Route files for route separation
 - Update Main web.php route
+
+
+**v0.3.0**
+- January 3, 2025
+- Add Login Page
+- Add Home pages for both Admin and Users
+- Convert the Blank Page into Layout page
