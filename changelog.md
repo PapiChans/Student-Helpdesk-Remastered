@@ -26,3 +26,10 @@
 - Add Login Page
 - Add Home pages for both Admin and Users
 - Convert the Blank Page into Layout page
+
+**v0.4.0**
+- January 4, 2025
+- Add the Following Pages: Forgot-password, Sign up
+- Update Landing Page and Login Page
+- Update Main routes
+- Initialize PostgreSQL Database

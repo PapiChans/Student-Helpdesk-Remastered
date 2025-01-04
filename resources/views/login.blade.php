@@ -39,7 +39,7 @@
                 <label class="form-label">
                   Password
                   <span class="form-label-description">
-                    <a href="#">Forgot password</a>
+                    <a href="{{'/forgot-password'}}">Forgot password</a>
                   </span>
                 </label>
                 <div class="input-group input-group-flat">
@@ -58,7 +58,7 @@
           </div>
         </div>
         <div class="text-center text-secondary mt-3">
-          Don't have an account yet? <a href="#" tabindex="-1">Sign up</a>
+          Don't have an account yet? <a href="{{'/signup'}}" tabindex="-1">Sign up</a>
         </div>
       </div>
     </div>

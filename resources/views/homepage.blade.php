@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/homepage/materialdesignicons.min.css')}}" />
 
 
-    <!-- Custom  sCss -->
+    <!-- Custom  CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/homepage/style.css')}}" />
 
 </head>
