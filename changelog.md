@@ -33,3 +33,9 @@
 - Update Landing Page and Login Page
 - Update Main routes
 - Initialize PostgreSQL Database
+
+**v0.4.1**
+- January 6, 2025
+- Add a first Custom User Table
+- Add Migrations
+- Add User Table Migrations
