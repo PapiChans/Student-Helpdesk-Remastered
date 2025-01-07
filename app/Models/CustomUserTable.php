@@ -15,10 +15,13 @@ class CustomUserTable extends Model
     protected $table =  'custom_user_tables';
 
     // Primary Key
-    protected $primaryKey = 'user_Id';
+    protected $primaryKey = 'user_id';
 
     // No incrementing for UUID
     protected $keyType = 'string';
+
+    // Disabled Auto-incrementing
+    public $incrementing = false;
 
     // Fillables
     protected $fillable = [
@@ -32,6 +35,14 @@ class CustomUserTable extends Model
     // Set timestamps
     protected $dates = ['lockout_expiration', 'created_at', 'updated_at'];
 
+    // Defining Relationships
+    public function userprofile()
+    {
+        return $this->hasOne(UserProfile::class, 'user_id', 'user_id');
+    }
 
-    
+    public function adminprofile()
+    {
+        return $this->hasOne(AdminProfile::class, 'user_id', 'user_id');
+    }
 }

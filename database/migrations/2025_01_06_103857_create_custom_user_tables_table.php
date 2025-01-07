@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('custom_user_tables', function (Blueprint $table) {
             $table->uuid('user_id')->primary();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->boolean('is_admin')->default(false);
+            $table->string('email')->unique()->nullable(false);
+            $table->string('password')->nullable(false);
+            $table->boolean('is_admin')->default(false)->nullable(false);
             $table->timestampTz('lockout_expiration')->nullable();
-            $table->integer('login_attempts')->default(0);
+            $table->integer('login_attempts')->default(0)->nullable(false);
             $table->timestamps();
         });
     }

@@ -39,3 +39,8 @@
 - Add a first Custom User Table
 - Add Migrations
 - Add User Table Migrations
+
+**v0.5.0**
+- January 7, 2025
+- Add Tables: User Profile, Admin, Profile, Offices
+- Add Contents on Admin Navbar
