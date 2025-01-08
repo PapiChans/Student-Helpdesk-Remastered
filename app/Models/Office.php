@@ -22,6 +22,13 @@ class Office extends Model
     // Disabled Auto-incrementing
     public $incrementing = false;
 
+    // Fillables
+    protected $fillable = [
+        'office_id',
+        'office_name',
+        'added_by'
+    ];
+
     // Defining Relationships
     public function adminoffice()
     {

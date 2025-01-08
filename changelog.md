@@ -44,3 +44,9 @@
 - January 7, 2025
 - Add Tables: User Profile, Admin, Profile, Offices
 - Add Contents on Admin Navbar
+
+**v0.5.1**
+- January 8, 2025
+- Add A Test backend
+- Add PreLoad data route and controller
+- Initiate PreLoad Data on User, Admin Profile and Offices.

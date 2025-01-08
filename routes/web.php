@@ -23,3 +23,4 @@ require base_path('routes/admin.php');
 require base_path('routes/adminbackend.php');
 require base_path('routes/user.php');
 require base_path('routes/userbackend.php');
+// require base_path('routes/preloaddata.php'); // Used for Preloading data, make it disabled after the data loads

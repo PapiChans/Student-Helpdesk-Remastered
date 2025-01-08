@@ -24,6 +24,8 @@ class UserProfile extends Model
 
     // Fillables
     protected $fillable = [
+        'profile_id',
+        'user_id',
         'last_name',
         'first_name',
         'middle_name',

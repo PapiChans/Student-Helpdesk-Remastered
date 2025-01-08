@@ -25,6 +25,7 @@ class CustomUserTable extends Model
 
     // Fillables
     protected $fillable = [
+        'user_id',
         'email',
         'password',
         'is_admin',
