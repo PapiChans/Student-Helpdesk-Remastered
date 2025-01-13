@@ -50,3 +50,8 @@
 - Add A Test backend
 - Add PreLoad data route and controller
 - Initiate PreLoad Data on User, Admin Profile and Offices.
+
+**v0.5.2**
+- January 13, 2025
+- Add A Seeder for the Mock Data
+- Set the Database and App Timezone to the Philippines 
