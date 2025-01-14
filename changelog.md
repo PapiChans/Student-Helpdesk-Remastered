@@ -54,4 +54,11 @@
 **v0.5.2**
 - January 13, 2025
 - Add A Seeder for the Mock Data
-- Set the Database and App Timezone to the Philippines 
+- Set the Database and App Timezone to the Philippines
+
+**v0.5.3**
+- January 14, 2025
+- Add a Seeder for Mock Data in User Profiles
+- Add first AJAX File
+- Add JQuery and Bootstrap Validation Libraries
+- Finished Signup Page
