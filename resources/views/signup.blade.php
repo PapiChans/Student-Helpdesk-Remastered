@@ -4,6 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Student Helpdesk | Sign Up</title>
     <!-- CSS files -->
     <link href="{{ asset('css/tabler/tabler.min.css')}}" rel="stylesheet"/>
@@ -33,11 +34,11 @@
               <div class="row">
                 <div class="col-6">
                   <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                  <input type="text" id="last_name" class="form-control" placeholder="Enter Last Name" required/>
+                  <input type="text" id="last_name" class="form-control" placeholder="Enter Last Name" maxlength=20 required/>
                 </div>
                 <div class="col-6">
                   <label class="form-label">First Name <span class="text-danger">*</span></label>
-                  <input type="text" id="first_name" class="form-control" placeholder="Enter First Name" required/>
+                  <input type="text" id="first_name" class="form-control" placeholder="Enter First Name" maxlength=20 required/>
                 </div>
               </div>
             </div>
@@ -45,7 +46,7 @@
               <div class="row">
                 <div class="col-6">
                   <label class="form-label">Middle Name <span class="text-danger">*</span></label>
-                  <input type="text" id="middle_name" class="form-control" placeholder="Enter Middle Name">
+                  <input type="text" id="middle_name" class="form-control" placeholder="Enter Middle Name" maxlength=20>
                 </div>
                 <div class="col-6">
                   <label class="form-label">Gender <span class="text-danger">*</span></label>
@@ -60,7 +61,7 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Email Address <span class="text-danger">*</span></label>
-              <input type="email" id="email" class="form-control" placeholder="Enter Email" required/>
+              <input type="email" id="email" class="form-control" placeholder="Enter Email" maxlength=40 required/>
             </div>
             <div class="mb-3">
               <label class="form-label">Password <span class="text-danger">*</span></label>
@@ -74,9 +75,15 @@
               </div>
             </div>
             <div class="mb-3">
+                <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                <div class="input-group input-group-flat">
+                    <input type="password" id="password_confirmation" class="form-control" placeholder="Confirm Password" autocomplete="off" minlength=8 maxlength=20 required/>
+                </div>
+            </div>
+            <div class="mb-3">
               <label class="form-check">
                 <input type="checkbox" id="agreement" class="form-check-input" required/>
-                <span class="form-check-label">Agree the <a href="#" target=".blank" tabindex="-1">terms and policy</a>.</span>
+                <span class="form-check-label">Agree the <a href="#" target=".blank" tabindex="-1">Terms and Policy</a>.</span>
               </label>
             </div>
             <div class="form-footer">

@@ -62,3 +62,9 @@
 - Add first AJAX File
 - Add JQuery and Bootstrap Validation Libraries
 - Finished Signup Page
+
+**v0.5.4**
+- January 15, 2025
+- app.php set Timezone to Philippines
+- Add first backend: signUp (Needs to Debug)
+- Add Signup Controller
