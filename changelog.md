@@ -68,3 +68,9 @@
 - app.php set Timezone to Philippines
 - Add first backend: signUp (Needs to Debug)
 - Add Signup Controller
+
+**v0.5.5**
+- January 15, 2025
+- Add Sweetalert Library
+- Sign Up Backend/Feature is Completed
+- Time Error input BUG FIXED 

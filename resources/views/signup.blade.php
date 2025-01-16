@@ -8,6 +8,7 @@
     <title>Student Helpdesk | Sign Up</title>
     <!-- CSS files -->
     <link href="{{ asset('css/tabler/tabler.min.css')}}" rel="stylesheet"/>
+    <link href="{{ asset('libs/sweetalert/sweetalert2.min.css')}}" rel="stylesheet"/>
     <link rel="icon" href="{{ asset('images/homepage/favicon.ico')}}" type="image/x-icon"/>
     <style>
       @import url('https://rsms.me/inter/inter.css');
@@ -101,6 +102,7 @@
     <script src="{{ asset('js/tabler/tabler.min.js')}}" defer></script>
     <script src="{{ asset('libs/bootstrap/validation.js')}}" defer></script>
     <script src="{{ asset('libs/jquery/jquery-3.7.1.min.js')}}" defer></script>
+    <script src="{{ asset('libs/sweetalert/sweetalert2.all.min.js')}}" defer></script>
     <script src="{{ asset('js/ajax/auth/signup.ajax.js')}}" defer></script>
   </body>
 </html>
