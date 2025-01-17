@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\SignUpController; // This Connect the Controllers
+// Connect the Controollers
+use App\Http\Controllers\Auth\SignUpController;
+use App\Http\Controllers\Auth\LogInController;
 
+// Authentication
 Route::post('/backend/signup', [SignUpController::class, 'backend_SignUp']);
+Route::post('/backend/login', [LoginController::class, 'backend_LogIn']);

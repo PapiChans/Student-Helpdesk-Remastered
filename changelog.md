@@ -74,3 +74,14 @@
 - Add Sweetalert Library
 - Sign Up Backend/Feature is Completed
 - Time Error input BUG FIXED 
+
+**v0.5.6**
+- January 16, 2025
+- Add Notyf Library
+- Add AJAX File: Login
+- Modified: CustomUserTable for Authentication
+- New Feature: Login System (Incomplete, Needs to debug)
+- Modified auth.php for authentication
+- Add new Controller
+- Modified Login and Signup Pages
+- Add New Routes

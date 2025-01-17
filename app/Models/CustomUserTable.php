@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash; // For Password Hashing
 use Illuminate\Support\Str;
 
-class CustomUserTable extends Model
+// Required for Authentication
+use Illuminate\Contracts\Auth\Authenticatable;
+
+
+class CustomUserTable extends Model implements Authenticatable
 {
     use HasFactory;
 
@@ -45,5 +49,36 @@ class CustomUserTable extends Model
     public function adminprofile()
     {
         return $this->hasOne(AdminProfile::class, 'user_id', 'user_id');
+    }
+
+    // Implement Authenticatable methods
+    public function getAuthIdentifierName()
+    {
+        return 'user_id';  // Return the name of the primary key column
+    }
+
+    public function getAuthIdentifier()
+    {
+        return $this->user_id;  // Return the value of the primary key
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->password;  // Return the hashed password
+    }
+
+    public function getRememberToken()
+    {
+        return $this->remember_token;  // Return the remember token if available
+    }
+
+    public function setRememberToken($value)
+    {
+        $this->remember_token = $value;  // Set the remember token
+    }
+
+    public function getRememberTokenName()
+    {
+        return 'remember_token';  // Return the remember token column name
     }
 }

@@ -1,3 +1,6 @@
+// Create an instance of Notyf
+const notyf = new Notyf();
+
 $( document ).ready(function() {
     $( "#signupForm" ).submit(function( event ) {
 
@@ -24,20 +27,25 @@ $( document ).ready(function() {
         $('#signupFormSubmit').attr('disabled', true)
 
         if (formData.password != formData.password_confirmation ){
-            Swal.fire({
-                title: 'Oops!',
-                text: 'Password does not match',
-                icon: 'error',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                confirmButtonText: 'Okay',
-                confirmButtonColor: '#0054a6',
-            })
+            notyf.error({
+                position: {x: 'right', y: 'top'},
+                duration: 2000,
+                ripple: true,
+                message: 'Passwords does not match.',
+            });
             $('#signupFormSubmit').attr('disabled', false)
         }
         else {
             // Get CSRF token from meta tag
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            notyf.open({
+                position: {x: 'right', y: 'top'},
+                duration: 2000,
+                ripple: true,
+                message: 'Signing Up...',
+                background: '#f76707'
+            });
     
             $.ajax({
                 type: "POST",
@@ -48,6 +56,8 @@ $( document ).ready(function() {
                     'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
                 },
                 success: function(response){
+                    notyf.dismissAll();
+
                     Swal.fire({
                         title: 'Success!',
                         text: response.message,
@@ -65,16 +75,14 @@ $( document ).ready(function() {
                     
                 },
                 error: function(response) {
+                    notyf.dismissAll();
                     if (response.responseJSON.status == 'error'){
-                        Swal.fire({
-                            title: 'Oops!',
-                            text: response.responseJSON.message,
-                            icon: 'error',
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            confirmButtonText: 'Okay',
-                            confirmButtonColor: '#0054a6',
-                        })
+                        notyf.error({
+                            position: {x: 'right', y: 'top'},
+                            duration: 2000,
+                            ripple: true,
+                            message: response.responseJSON.message,
+                        });
                     }
                     else {
                         Swal.fire({

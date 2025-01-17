@@ -4,11 +4,13 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Student Helpdesk | Log In</title>
     <!-- CSS files -->
     <link href="{{ asset('css/tabler/tabler.min.css')}}" rel="stylesheet"/>
     <link rel="icon" href="{{ asset('images/homepage/favicon.ico')}}" type="image/x-icon"/>
-
+    <link href="{{ asset('libs/sweetalert/sweetalert2.min.css')}}" rel="stylesheet"/>
+    <link href="{{ asset('libs/notyf/notyf.min.css')}}" rel="stylesheet"/>
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {
@@ -30,10 +32,10 @@
         <div class="card card-md">
           <div class="card-body">
             <h2 class="h2 text-center mb-4">Login to your account</h2>
-            <form action="./" method="get" autocomplete="off" novalidate>
+            <form class="needs-validation" id="loginForm" novalidate>
               <div class="mb-3">
                 <label class="form-label">Email Address</label>
-                <input type="email" class="form-control" placeholder="Enter your Email" autocomplete="off">
+                <input type="email" id="email" class="form-control" placeholder="Enter your Email" maxlength=40 required/>
               </div>
               <div class="mb-2">
                 <label class="form-label">
@@ -43,16 +45,22 @@
                   </span>
                 </label>
                 <div class="input-group input-group-flat">
-                  <input type="password" class="form-control"  placeholder="Enter your password"  autocomplete="off">
+                  <input type="password" id="password" class="form-control"  placeholder="Enter your password"  autocomplete="off" minlength=8 maxlength=20 required/>
                   <span class="input-group-text">
                     <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
                     </a>
                   </span>
                 </div>
+                <div class="mt-3">
+                  <label class="form-check">
+                    <input type="checkbox" id="as_admin" class="form-check-input">
+                    <span class="form-check-label">Log In as Admin</span>
+                  </label>
+                </div>
               </div>
               <div class="form-footer">
-                <button type="submit" class="btn btn-primary w-100">Log in</button>
+                <button type="submit" id="loginFormSubmit" class="btn btn-primary w-100">Log in</button>
               </div>
             </form>
           </div>
@@ -65,5 +73,10 @@
     <!-- Libs JS -->
     <!-- Tabler Core -->
     <script src="{{ asset('js/tabler/tabler.min.js')}}" defer></script>
+    <script src="{{ asset('libs/bootstrap/validation.js')}}" defer></script>
+    <script src="{{ asset('libs/jquery/jquery-3.7.1.min.js')}}" defer></script>
+    <script src="{{ asset('libs/sweetalert/sweetalert2.all.min.js')}}" defer></script>
+    <script src="{{ asset('libs/notyf/notyf.min.js')}}" defer></script>
+    <script src="{{ asset('js/ajax/auth/login.ajax.js')}}" defer></script>
   </body>
 </html>

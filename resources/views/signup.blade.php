@@ -9,6 +9,7 @@
     <!-- CSS files -->
     <link href="{{ asset('css/tabler/tabler.min.css')}}" rel="stylesheet"/>
     <link href="{{ asset('libs/sweetalert/sweetalert2.min.css')}}" rel="stylesheet"/>
+    <link href="{{ asset('libs/notyf/notyf.min.css')}}" rel="stylesheet"/>
     <link rel="icon" href="{{ asset('images/homepage/favicon.ico')}}" type="image/x-icon"/>
     <style>
       @import url('https://rsms.me/inter/inter.css');
@@ -46,7 +47,7 @@
             <div class="mb-3">
               <div class="row">
                 <div class="col-6">
-                  <label class="form-label">Middle Name <span class="text-danger">*</span></label>
+                  <label class="form-label">Middle Name</label>
                   <input type="text" id="middle_name" class="form-control" placeholder="Enter Middle Name" maxlength=20>
                 </div>
                 <div class="col-6">
@@ -103,6 +104,7 @@
     <script src="{{ asset('libs/bootstrap/validation.js')}}" defer></script>
     <script src="{{ asset('libs/jquery/jquery-3.7.1.min.js')}}" defer></script>
     <script src="{{ asset('libs/sweetalert/sweetalert2.all.min.js')}}" defer></script>
+    <script src="{{ asset('libs/notyf/notyf.min.js')}}" defer></script>
     <script src="{{ asset('js/ajax/auth/signup.ajax.js')}}" defer></script>
   </body>
 </html>
