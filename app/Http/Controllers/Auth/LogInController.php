@@ -85,7 +85,7 @@ class LogInController extends Controller
                     Auth::login($credentials);
 
                     // Confirming if the User is the Admin
-                    if ($credentials->is_admin == true && $request->as_admin == true) {
+                    if ($credentials->is_admin == true) {
                         return response()->json([
                             'status' => 'success',
                             'admin' => true,
@@ -108,10 +108,5 @@ class LogInController extends Controller
                 'message' => 'User Not Found',
             ], 404);
         }
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Received.',
-        ], 200);
     }
 }

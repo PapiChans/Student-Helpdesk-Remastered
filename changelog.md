@@ -70,13 +70,13 @@
 - Add Signup Controller
 
 **v0.5.5**
-- January 15, 2025
+- January 16, 2025
 - Add Sweetalert Library
 - Sign Up Backend/Feature is Completed
 - Time Error input BUG FIXED 
 
 **v0.5.6**
-- January 16, 2025
+- January 17, 2025
 - Add Notyf Library
 - Add AJAX File: Login
 - Modified: CustomUserTable for Authentication
@@ -85,3 +85,12 @@
 - Add new Controller
 - Modified Login and Signup Pages
 - Add New Routes
+
+**v0.5.7**
+- January 18, 2025
+- Add AJAX File: Logout
+- New Feature: Login system (Completed)
+- New Security: Auth Check before Load Page
+- Add Logout Feature
+- Add Controllers
+- Modified Session Table

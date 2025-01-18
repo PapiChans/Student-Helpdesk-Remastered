@@ -41,7 +41,6 @@ $( document ).ready(function() {
             },
             success: function(response){
                 notyf.dismissAll();
-                console.log(response)
 
                 if (response.status == 'success'){
                     notyf.success({
@@ -58,7 +57,6 @@ $( document ).ready(function() {
                     }
                 }
                 else {
-                    console.log(response)
                     Swal.fire({
                         title: 'Oops!',
                         text: response.message,
@@ -69,12 +67,9 @@ $( document ).ready(function() {
                         confirmButtonColor: '#0054a6',
                     })  
                 }
-
-                $('#loginFormSubmit').attr('disabled', false) // Remove once everything is OK
             },
             error: function(response) {
                 notyf.dismissAll();
-                console.log(response)
                 Swal.fire({
                     title: 'Oops!',
                     text: response.responseJSON.message,

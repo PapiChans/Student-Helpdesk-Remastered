@@ -5,11 +5,14 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Student Helpdesk | Admin</title>
     <link rel="icon" href="{{ asset('images/homepage/favicon.ico')}}" type="image/x-icon"/>
     
     <!-- CSS files -->
     <link href="{{ asset('css/tabler/tabler.min.css')}}" rel="stylesheet"/>
+    <link href="{{ asset('libs/sweetalert/sweetalert2.min.css')}}" rel="stylesheet"/>
+    <link href="{{ asset('libs/notyf/notyf.min.css')}}" rel="stylesheet"/>
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {
@@ -46,8 +49,8 @@
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <a href="#" class="dropdown-item">Account Settings</a>
-                <a href="#" class="dropdown-item">Logout</a>
+                <button class="dropdown-item">Account Settings</button>
+                <button class="dropdown-item" onclick="session_logout()">Logout</button>
               </div>
             </div>
           </div>
@@ -162,7 +165,10 @@
       </div>
     </div>
     <script src="{{ asset('js/tabler/tabler.min.js')}}" defer></script>
-
+    <script src="{{ asset('libs/jquery/jquery-3.7.1.min.js')}}" defer></script>
+    <script src="{{ asset('libs/sweetalert/sweetalert2.all.min.js')}}" defer></script>
+    <script src="{{ asset('libs/notyf/notyf.min.js')}}" defer></script>
+    <script src="{{ asset('js/ajax/auth/logout.ajax.js')}}" defer></script>
     <!-- Custom JS will Place Here -->
     {{ $customJS }}
 

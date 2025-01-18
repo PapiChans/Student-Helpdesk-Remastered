@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Hash; // For Password Hashing
 use Illuminate\Support\Str;
 
 // Required for Authentication
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class CustomUserTable extends Model implements Authenticatable
+class CustomUserTable extends Authenticatable
 {
     use HasFactory;
 

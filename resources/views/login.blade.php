@@ -52,12 +52,6 @@
                     </a>
                   </span>
                 </div>
-                <div class="mt-3">
-                  <label class="form-check">
-                    <input type="checkbox" id="as_admin" class="form-check-input">
-                    <span class="form-check-label">Log In as Admin</span>
-                  </label>
-                </div>
               </div>
               <div class="form-footer">
                 <button type="submit" id="loginFormSubmit" class="btn btn-primary w-100">Log in</button>

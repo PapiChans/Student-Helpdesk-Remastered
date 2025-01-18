@@ -8,6 +8,6 @@
   @endslot
 
   @slot('customJS')
-
+  <script src="{{ asset('js/ajax/user/home.ajax.js')}}" defer></script>
   @endslot
 </x-user-layout>
