@@ -22,20 +22,7 @@ function session_logout() {
 
             window.location.href = '/login';
         },
-        error: function(xhr, status, error) {
-            // Log the error details
-            console.log('Error Status: ' + status);
-            console.log('Error: ' + error);
-            console.log('Response Text: ' + xhr.responseText);
-            
-            // You can also print out the response JSON if it's available
-            try {
-                const errorResponse = JSON.parse(xhr.responseText);
-                console.log('Error Response:', errorResponse);
-            } catch (e) {
-                console.log('Unable to parse response JSON');
-            }
-            
+        error: function() {
             Swal.fire({
                 title: 'Oops!',
                 text: 'There was an error while processing. Please try again.',

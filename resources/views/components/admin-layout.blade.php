@@ -44,8 +44,8 @@
               <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm" style="background-image: url({{ asset('images/homepage/favicon.ico')}})"></span>
                 <div class="d-none d-xl-block ps-2">
-                  <div>PapiChans</div>
-                  <div class="mt-1 small text-secondary">Admin</div>
+                  <div id="profile_name"></div>
+                  <div class="mt-1 small text-secondary" id="office"></div>
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -169,6 +169,7 @@
     <script src="{{ asset('libs/sweetalert/sweetalert2.all.min.js')}}" defer></script>
     <script src="{{ asset('libs/notyf/notyf.min.js')}}" defer></script>
     <script src="{{ asset('js/ajax/auth/logout.ajax.js')}}" defer></script>
+    <script src="{{ asset('js/ajax/auth/admin-profile.ajax.js')}}" defer></script>
     <!-- Custom JS will Place Here -->
     {{ $customJS }}
 

@@ -94,3 +94,11 @@
 - Add Logout Feature
 - Add Controllers
 - Modified Session Table
+
+**v0.5.8**
+- January 20, 2025
+- New Feature: Get Names for Profile
+- Add AJAX Files
+- Add New Controllers
+- Add Backed Routes
+- Modified Layout for Pages
