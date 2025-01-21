@@ -18,3 +18,22 @@ Route::get('/admin/home', function () {
         return redirect()->route('login');
     }
 })->name('admin/home');
+
+
+// Admin Management Page
+Route::get('/admin/admin-management', function () {
+    if (Auth::check()) {
+        // Check if the user is logged in
+        if (Auth::user()->is_admin) {
+            // If the user is an admin.
+            return view('admin/admin-management');
+        } else {
+            // If the user is authenticated but not an admin, redirect to user home page
+            return redirect()->route('user/home');
+        }
+    }
+    else {
+        // If the user is not authenticated, redirect to login page
+        return redirect()->route('login');
+    }
+})->name('admin/admin-management');

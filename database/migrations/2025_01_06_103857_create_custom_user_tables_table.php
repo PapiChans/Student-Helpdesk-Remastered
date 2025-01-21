@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('email')->unique()->nullable(false);
             $table->string('password')->nullable(false);
             $table->boolean('is_admin')->default(false)->nullable(false);
-            $table->timestampTz('lockout_expiration')->nullable();
+            $table->timestamp('lockout_expiration')->nullable();
             $table->integer('login_attempts')->default(0)->nullable(false);
             $table->timestamps();
         });

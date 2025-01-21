@@ -1,0 +1,107 @@
+// Create an instance of Notyf
+const notyf = new Notyf();
+
+$( document ).ready(function() {
+    getAdmin();
+});
+
+// Forming Name Function
+function formName(fname, mname, lname) {
+    const getmiddle = mname;
+    if (getmiddle) {
+        return fname[0].toUpperCase() + fname.slice(1) + " " + getmiddle[0].toUpperCase() + "." + " " + lname[0].toUpperCase() + lname.slice(1);
+    }
+    else {
+        return fname[0].toUpperCase() + fname.slice(1) + " " + lname[0].toUpperCase() + lname.slice(1);
+    }
+}
+
+// Get CSRF token from meta tag
+var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+function getAdmin() {
+    let adminTable = new DataTable('#adminTable', {
+        responsive: true,
+        scrollX: true,
+        ajax: {
+            type: "GET",
+            url: "/backend/admin/getAdmin",
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },  
+            error: function() {
+                notyf.error({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: "There was an error while retrieving admin data.",
+                });
+            }
+        },
+        columns: [
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    return formName(row.first_name, row.middle_name, row.last_name);
+                }
+            },
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    if (row.gender === 'Male') {
+                        return `<span class="badge bg-blue text-blue-fg">${row.gender}</span>`;
+                    }
+                    else if (row.gender === 'Female') {
+                        return `<span class="badge bg-red text-red-fg">${row.gender}</span>`;
+                    }
+                    else if (row.gender === 'Prefer Not to Say') {
+                        return `<span class="badge bg-dark text-dark-fg">${row.gender}</span>`;
+                    }
+                    else{
+                        return `<span class="badge bg-dark text-dark-fg">Unknown</span>`;
+                    }
+                }
+            },
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    return row.office_name;
+                }
+            },
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    if (row.is_master_admin == true) {
+                        return `<span class="badge bg-blue text-blue-fg">True</span>`;
+                    }
+                    else{
+                        return `<span class="badge bg-red text-red-fg">False</span>`;
+                    }
+                }
+            },
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    if (row.is_technician == true) {
+                        return `<span class="badge bg-blue text-blue-fg">True</span>`;
+                    }
+                    else{
+                        return `<span class="badge bg-red text-red-fg">False</span>`;
+                    }
+                }
+            },
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    return `<button class="btn btn-warning">Edit</button>`
+                }
+            },
+        ]
+    });
+}

@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use Carbon\Carbon;
+
 class LogInController extends Controller
 {
     public function backend_LogIn(Request $request)
@@ -53,7 +55,7 @@ class LogInController extends Controller
                     // If attempts reach 3, set lockout expiration
                     if ($credentials->login_attempts >= 2) {
                         // Set lockout expiration time to 5 minutes from now
-                        $credentials->lockout_expiration = now()->addMinutes(5);
+                        $credentials->lockout_expiration = Carbon::now('Asia/Manila')->addMinutes(5);
                         $credentials->login_attempts = 0;
                         $credentials->update();
     

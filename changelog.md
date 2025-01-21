@@ -100,5 +100,16 @@
 - New Feature: Get Names for Profile
 - Add AJAX Files
 - Add New Controllers
-- Add Backed Routes
+- Add Backend Routes
 - Modified Layout for Pages
+
+**v0.5.9**
+- January 20, 2025
+- New Feature: Admin Management (In Progress)
+- Add AJAX Files
+- Add New Controllers
+- Add Backend Routes
+- Add Frontend Routes
+- Modified Layout for Pages
+- Modified User Table
+- Add Libraries: DataTables
