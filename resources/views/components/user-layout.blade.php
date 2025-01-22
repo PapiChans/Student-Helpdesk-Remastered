@@ -99,6 +99,9 @@
           </div>
         </div>
       </header>
+      <!-- Enter Modals -->
+      {{ $modals }}
+      <!-- End Modals -->
       <div class="page-wrapper">
         <!-- Page header -->
         <div class="page-header d-print-none">

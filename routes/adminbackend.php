@@ -10,3 +10,4 @@ Route::get('/backend/admin/getProfile', [ProfileController::class, 'backend_getA
 
 // Admin Management
 Route::get('/backend/admin/getAdmin', [AdminManagementController::class, 'backend_getAdmin']);
+Route::get('/backend/admin/getOffice', [AdminManagementController::class, 'backend_getOffice']);

@@ -24,9 +24,9 @@ class AdminManagementController extends Controller
                     'message' => "Unauthorized Access.",
                 ], 409);
             } else {
-                $admins = AdminProfile::all();  // Use 'all' to get all admin profiles
+                $admins = AdminProfile::all();
 
-                // Prepare an array to store the admin data and their office information
+                // Prepare an array
                 $adminData = [];
 
                 foreach ($admins as $admin) {
@@ -62,6 +62,55 @@ class AdminManagementController extends Controller
             }
         }
         else {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_getOffice(Request $request)
+    {
+        if (Auth::check()) {
+            // Check if the user is logged in
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                $offices = Office::all();
+
+                // Prepare an array
+                $officeData = [];
+
+                    foreach ($offices as $office) {
+                        // Store the required fields in an array
+                        $officeData[] = [
+                            'office_name' => $office->office_name,
+                            'added_by' => $office->added_by,
+                            'date_added' => $office->created_at,
+                            'last_modified' => $office->updated_at,
+                        ];
+                    }
+                }
+                if (count($officeData) > 0) {
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => "Access Granted.",
+                        'data' => $officeData
+                    ], 200);
+                }
+                else {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => "Data not found.",
+                    ], 404);
+                }
+            }
+        else 
+        {
             // If the User is Anonymous
             return response()->json([
                 'status' => 'error',

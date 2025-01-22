@@ -113,3 +113,11 @@
 - Modified Layout for Pages
 - Modified User Table
 - Add Libraries: DataTables
+
+**v0.5.10**
+- January 21, 2025
+- Add Libraries: DataTables Responsive
+- Add Modals
+- Modified Page Components
+- Add Backend Routes
+- Modified Controllers

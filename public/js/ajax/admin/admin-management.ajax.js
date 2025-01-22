@@ -3,6 +3,7 @@ const notyf = new Notyf();
 
 $( document ).ready(function() {
     getAdmin();
+    getOffice();
 });
 
 // Forming Name Function
@@ -16,13 +17,25 @@ function formName(fname, mname, lname) {
     }
 }
 
+// Posgres Timestamp Function
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    
+    const options = { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    };
+    
+    return date.toLocaleDateString('en-US', options);
+  }
+
 // Get CSRF token from meta tag
 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
 function getAdmin() {
     let adminTable = new DataTable('#adminTable', {
         responsive: true,
-        scrollX: true,
         ajax: {
             type: "GET",
             url: "/backend/admin/getAdmin",
@@ -93,6 +106,64 @@ function getAdmin() {
                     else{
                         return `<span class="badge bg-red text-red-fg">False</span>`;
                     }
+                }
+            },
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    return `<button class="btn btn-warning">Edit</button>`
+                }
+            },
+        ]
+    });
+}
+
+function getOffice() {
+    let officeTable = new DataTable('#officeTable', {
+        responsive: true,
+        ajax: {
+            type: "GET",
+            url: "/backend/admin/getOffice",
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },  
+            error: function() {
+                notyf.error({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: "There was an error while retrieving office data.",
+                });
+            }
+        },
+        columns: [
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    return row.office_name;
+                }
+            },
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    return row.added_by;
+                }
+            },
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    return formatTimestamp(row.date_added);
+                }
+            },
+            { 
+                data: null,
+                className: 'text-center align-content-center',
+                render: function(row) {
+                    return formatTimestamp(row.last_modified);
                 }
             },
             { 
