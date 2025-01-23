@@ -80,7 +80,7 @@ class AdminManagementController extends Controller
                     'message' => "Unauthorized Access.",
                 ], 409);
             } else {
-                $offices = Office::all();
+                $offices = Office::whereNotIn('office_name', ['Master Admin', 'Technician'])->get();
 
                 // Prepare an array
                 $officeData = [];

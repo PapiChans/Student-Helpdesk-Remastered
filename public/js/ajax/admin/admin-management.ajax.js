@@ -2,6 +2,7 @@
 const notyf = new Notyf();
 
 $( document ).ready(function() {
+    getOfficeChoice();
     getAdmin();
     getOffice();
 });
@@ -33,6 +34,40 @@ function formatTimestamp(timestamp) {
 // Get CSRF token from meta tag
 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
+// Get office Choices
+function getOfficeChoice() {
+
+    const office = $('#add_office'); 
+
+    $.ajax({
+        type: "GET",
+        url: "/backend/admin/getOffice",
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            if (response.data && response.data.length > 0) {
+                response.data.forEach((officeData) => {
+                    let officeChoices = `
+                    <option value="${officeData.office_name}">${officeData.office_name}</option>
+                    `
+
+                    office.append(officeChoices);
+                });
+            }
+        },
+        error: function() {
+            notyf.error({
+                position: {x: 'right', y: 'top'},
+                duration: 2000,
+                ripple: true,
+                message: "There was an error while retrieving offices.",
+            });
+        }
+    });
+}
+
+// Render Admins on Tables
 function getAdmin() {
     let adminTable = new DataTable('#adminTable', {
         responsive: true,
@@ -112,13 +147,20 @@ function getAdmin() {
                 data: null,
                 className: 'text-center align-content-center',
                 render: function(row) {
-                    return `<button class="btn btn-warning">Edit</button>`
+                    return `<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editAdmin-modal">Edit</button>`
                 }
             },
         ]
     });
 }
 
+
+// ----------------------------------
+// Office Management
+// ----------------------------------
+
+
+// Render Offices on Tables
 function getOffice() {
     let officeTable = new DataTable('#officeTable', {
         responsive: true,
@@ -170,9 +212,10 @@ function getOffice() {
                 data: null,
                 className: 'text-center align-content-center',
                 render: function(row) {
-                    return `<button class="btn btn-warning">Edit</button>`
+                    return `<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editOffice-modal">Edit</button>`
                 }
             },
         ]
     });
 }
+

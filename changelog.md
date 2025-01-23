@@ -104,7 +104,7 @@
 - Modified Layout for Pages
 
 **v0.5.9**
-- January 20, 2025
+- January 21, 2025
 - New Feature: Admin Management (In Progress)
 - Add AJAX Files
 - Add New Controllers
@@ -115,9 +115,16 @@
 - Add Libraries: DataTables
 
 **v0.5.10**
-- January 21, 2025
+- January 22, 2025
 - Add Libraries: DataTables Responsive
 - Add Modals
 - Modified Page Components
 - Add Backend Routes
 - Modified Controllers
+
+**v0.5.11**
+- January 23, 2025
+- Modified Controllers
+- Modified Seeders
+- Modified Admin Views
+- Add Modals

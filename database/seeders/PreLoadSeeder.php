@@ -48,14 +48,34 @@ class PreLoadSeeder extends Seeder
         ]);
 
         $officeid = (string) Str::uuid();
+        $officeid2 = (string) Str::uuid();
+        $officeid3 = (string) Str::uuid();
 
-        DB::table('offices')->insert([
-            'office_id' => $officeid,
-            'office_name' => 'Master Admin',
-            'added_by' => 'Juan Dela Cruz',
-            'created_at' => Carbon::now('Asia/Manila'),
-            'updated_at' => Carbon::now('Asia/Manila')
-        ]);
+        DB::table('offices')->insert(
+            [
+                [
+                'office_id' => $officeid,
+                'office_name' => 'Master Admin',
+                'added_by' => 'Master Admin',
+                'created_at' => Carbon::now('Asia/Manila'),
+                'updated_at' => Carbon::now('Asia/Manila')
+                ],
+                [
+                'office_id' => $officeid2,
+                'office_name' => 'Technician',
+                'added_by' => 'Master Admin',
+                'created_at' => Carbon::now('Asia/Manila'),
+                'updated_at' => Carbon::now('Asia/Manila')
+                ],
+                [
+                'office_id' => $officeid3,
+                'office_name' => 'Guidance Office',
+                'added_by' => 'Master Admin',
+                'created_at' => Carbon::now('Asia/Manila'),
+                'updated_at' => Carbon::now('Asia/Manila')
+                ]
+            ]
+        );
 
         DB::table('admin_profiles')->insert([
             'profile_id' => (string) Str::uuid(),
