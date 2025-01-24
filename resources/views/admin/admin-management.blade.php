@@ -161,6 +161,7 @@
             <div class="modal-body">
                 <form id="editregisterOfficeForm" class="needs-validation" novalidate>
                     <div class="mb-3">
+                        <input type="hidden" id="edit_register_office_id"/>
                         <label class="form-label">Office Name <span class="text-danger">*</span></label>
                         <input type="text" id="edit_register_office" class="form-control" placeholder="Edit Office Name" maxlength=40 required/>
                     </div>

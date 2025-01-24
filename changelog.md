@@ -128,3 +128,10 @@
 - Modified Seeders
 - Modified Admin Views
 - Add Modals
+
+**v0.5.12**
+- January 24, 2025
+- Modified Controllers
+- Add Backend Routes
+- Modified Admin Management AJAX
+- Office Management Features: Completed

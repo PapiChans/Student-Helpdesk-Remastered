@@ -212,10 +212,258 @@ function getOffice() {
                 data: null,
                 className: 'text-center align-content-center',
                 render: function(row) {
-                    return `<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editOffice-modal">Edit</button>`
+                    return `
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editOffice-modal" onclick="getOneOffice('${row.office_id}')">Edit</button>
+                    <button class="btn btn-danger" onclick="removeOffice('${row.office_id}','${row.office_name}')">Remove</button>
+                    `
                 }
             },
         ]
     });
 }
 
+// Add Office Function
+$( "#registerOfficeForm" ).submit(function( event ) {
+    // Prevent the form from submitting
+    event.preventDefault();
+
+    var formData = {
+        office: $( "#register_office" ).val(),
+    };
+
+    // Check if the form is valid using HTML5 validation
+    if (!this.checkValidity()) {
+        return;  // Stop further execution
+    }
+
+    // This disables the button
+    $('#registerOfficeFormSubmit').attr('disabled', true)
+
+    notyf.open({
+        position: {x: 'right', y: 'top'},
+        duration: 2000,
+        ripple: true,
+        message: 'Adding...',
+        background: '#f76707'
+    });
+    $.ajax({
+        type: "POST",
+        url: "/backend/admin/addOffice",
+        data: formData,
+        dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            console.log(response)
+            notyf.dismissAll();
+
+            if (response.status == 'success'){
+                notyf.success({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.message,
+                });
+
+                $('form#registerOfficeForm')[0].reset();
+
+                var modalElement = document.getElementById('addOffice-modal');
+                var modal = new bootstrap.Modal(modalElement);
+                modal.hide();
+
+                location.reload();
+            }
+            
+        },
+        error: function(response) {
+            notyf.dismissAll();
+            if (response.responseJSON.status == 'error'){
+                notyf.error({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.responseJSON.message,
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'There was an error while processing. Please try again.',
+                    icon: 'error',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: 'Okay',
+                    confirmButtonColor: '#0054a6',
+                })  
+            }
+
+            $('#registerOfficeFormSubmit').attr('disabled', false)
+        }
+    });
+});
+
+// Get One Office Data
+function getOneOffice (office_id) {
+    $.ajax({
+        type: "GET",
+        url: `/backend/admin/getOneOffice/${office_id}`,
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            $('#edit_register_office_id').val(response.data.office_id)
+            $('#edit_register_office').val(response.data.office_name)
+        },
+        error: function() {
+            notyf.error({
+                position: {x: 'right', y: 'top'},
+                duration: 2000,
+                ripple: true,
+                message: "There was an error while retrieving office.",
+            });
+        }
+    });
+}
+
+// Edit Office Function
+$( "#editregisterOfficeForm" ).submit(function( event ) {
+    // Prevent the form from submitting
+    event.preventDefault();
+
+    var formData = {
+        office_id: $( "#edit_register_office_id" ).val(),
+        office_name: $( "#edit_register_office" ).val(),
+    };
+
+    // Check if the form is valid using HTML5 validation
+    if (!this.checkValidity()) {
+        return;  // Stop further execution
+    }
+
+    // This disables the button
+    $('#editregisterOfficeFormSubmit').attr('disabled', true)
+
+    notyf.open({
+        position: {x: 'right', y: 'top'},
+        duration: 2000,
+        ripple: true,
+        message: 'Saving...',
+        background: '#f76707'
+    });
+    $.ajax({
+        type: "PUT",
+        url: `/backend/admin/editOffice/${formData.office_id}`,
+        data: formData,
+        dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            console.log(response)
+            notyf.dismissAll();
+
+            if (response.status == 'success'){
+                notyf.success({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.message,
+                });
+
+                $('form#editregisterOfficeForm')[0].reset();
+
+                var modalElement = document.getElementById('editOffice-modal');
+                var modal = new bootstrap.Modal(modalElement);
+                modal.hide();
+
+                location.reload();
+            }
+            
+        },
+        error: function(response) {
+            notyf.dismissAll();
+            if (response.responseJSON.status == 'error'){
+                notyf.error({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.responseJSON.message,
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'There was an error while processing. Please try again.',
+                    icon: 'error',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: 'Okay',
+                    confirmButtonColor: '#0054a6',
+                })  
+            }
+
+            $('#editregisterOfficeFormSubmit').attr('disabled', false)
+        }
+    });
+});
+
+// Remove Office
+function removeOffice (office_id, office_name) {
+    Swal.fire({
+        title: 'Are you Sure?',
+        text: `Do you want to remove ${office_name}`,
+        icon: 'question',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonText: 'Yes',
+        confirmButtonColor: '#d63939',
+        showCancelButton: true,  // Optionally show a cancel button
+        cancelButtonText: 'Cancel',
+    })
+    .then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "DELETE",
+                url: `/backend/admin/removeOffice/${office_id}`,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response){
+                    notyf.success({
+                        position: {x: 'right', y: 'top'},
+                        duration: 2000,
+                        ripple: true,
+                        message: response.message,
+                    });
+    
+                    location.reload();
+                },
+                error: function(response) {
+                    if (response.responseJSON.status == 'error') {
+                        Swal.fire({
+                            title: 'Oops!',
+                            text: response.responseJSON.message,
+                            icon: 'error',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            confirmButtonText: 'Okay',
+                            confirmButtonColor: '#0054a6',
+                        }) 
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Oops!',
+                            text: 'There was an error while processing. Please try again.',
+                            icon: 'error',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            confirmButtonText: 'Okay',
+                            confirmButtonColor: '#0054a6',
+                        }) 
+                    }
+                }
+            });    
+        }
+    })
+}
