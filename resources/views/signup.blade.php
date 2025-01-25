@@ -36,11 +36,11 @@
               <div class="row">
                 <div class="col-6">
                   <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                  <input type="text" id="last_name" class="form-control" placeholder="Enter Last Name" maxlength=20 required/>
+                  <input type="text" id="last_name" class="form-control no-numbers" placeholder="Enter Last Name" maxlength=20 required/>
                 </div>
                 <div class="col-6">
                   <label class="form-label">First Name <span class="text-danger">*</span></label>
-                  <input type="text" id="first_name" class="form-control" placeholder="Enter First Name" maxlength=20 required/>
+                  <input type="text" id="first_name" class="form-control no-numbers" placeholder="Enter First Name" maxlength=20 required/>
                 </div>
               </div>
             </div>
@@ -48,7 +48,7 @@
               <div class="row">
                 <div class="col-6">
                   <label class="form-label">Middle Name</label>
-                  <input type="text" id="middle_name" class="form-control" placeholder="Enter Middle Name" maxlength=20>
+                  <input type="text" id="middle_name" class="form-control no-numbers" placeholder="Enter Middle Name" maxlength=20>
                 </div>
                 <div class="col-6">
                   <label class="form-label">Gender <span class="text-danger">*</span></label>

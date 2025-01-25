@@ -1,6 +1,13 @@
 // Create an instance of Notyf
 const notyf = new Notyf();
 
+document.querySelectorAll('input[type="text"].no-numbers').forEach(function(input) {
+    input.addEventListener('input', function(event) {
+        // Remove numbers from the input value
+        event.target.value = event.target.value.replace(/[0-9]/g, '');
+    });
+});
+
 $( document ).ready(function() {
     $( "#signupForm" ).submit(function( event ) {
 

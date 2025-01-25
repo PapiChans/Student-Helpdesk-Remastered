@@ -7,6 +7,14 @@ $( document ).ready(function() {
     getOffice();
 });
 
+// Preventing to Put any numbers in input type 'text'
+document.querySelectorAll('input[type="text"].no-numbers').forEach(function(input) {
+    input.addEventListener('input', function(event) {
+        // Remove numbers from the input value
+        event.target.value = event.target.value.replace(/[0-9]/g, '');
+    });
+});
+
 // Forming Name Function
 function formName(fname, mname, lname) {
     const getmiddle = mname;
@@ -37,7 +45,8 @@ var csrfToken = $('meta[name="csrf-token"]').attr('content');
 // Get office Choices
 function getOfficeChoice() {
 
-    const office = $('#add_office'); 
+    const add_office = $('#add_office'); 
+    const edit_office = $('#edit_office'); 
 
     $.ajax({
         type: "GET",
@@ -49,10 +58,11 @@ function getOfficeChoice() {
             if (response.data && response.data.length > 0) {
                 response.data.forEach((officeData) => {
                     let officeChoices = `
-                    <option value="${officeData.office_name}">${officeData.office_name}</option>
+                    <option value="${officeData.office_id}">${officeData.office_name}</option>
                     `
 
-                    office.append(officeChoices);
+                    add_office.append(officeChoices);
+                    edit_office.append(officeChoices);
                 });
             }
         },
@@ -104,7 +114,7 @@ function getAdmin() {
                     else if (row.gender === 'Female') {
                         return `<span class="badge bg-red text-red-fg">${row.gender}</span>`;
                     }
-                    else if (row.gender === 'Prefer Not to Say') {
+                    else if (row.gender === 'Prefer not to say') {
                         return `<span class="badge bg-dark text-dark-fg">${row.gender}</span>`;
                     }
                     else{
@@ -153,6 +163,92 @@ function getAdmin() {
         ]
     });
 }
+
+// Add Admin Function
+$( "#registerAdminForm" ).submit(function( event ) {
+    // Prevent the form from submitting
+    event.preventDefault();
+
+    var formData = {
+        last_name: $( "#add_last_name" ).val(),
+        first_name: $( "#add_first_name" ).val(),
+        middle_name: $( "#add_middle_name" ).val(),
+        gender: $( "#add_gender" ).val(),
+        email: $( "#add_email" ).val(),
+        office: $( "#add_office" ).val(),
+        is_technician: $( "#add_is_technician" ).prop('checked'),
+    };
+
+    // Check if the form is valid using HTML5 validation
+    if (!this.checkValidity()) {
+        return;  // Stop further execution
+    }
+
+    // This disables the button
+    $('#registerAdminFormSubmit').attr('disabled', true)
+
+    notyf.open({
+        position: {x: 'right', y: 'top'},
+        duration: 2000,
+        ripple: true,
+        message: 'Adding...',
+        background: '#f76707'
+    });
+    $.ajax({
+        type: "POST",
+        url: "/backend/admin/addAdmin",
+        data: formData,
+        dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            notyf.dismissAll();
+
+            if (response.status == 'success'){
+                notyf.success({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.message,
+                });
+
+                $('form#registerAdminForm')[0].reset();
+
+                var modalElement = document.getElementById('addAdmin-modal');
+                var modal = new bootstrap.Modal(modalElement);
+                modal.hide();
+
+                location.reload();
+            }
+            
+        },
+        error: function(response) {
+            notyf.dismissAll();
+            if (response.responseJSON.status == 'error'){
+                notyf.error({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.responseJSON.message,
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'There was an error while processing. Please try again.',
+                    icon: 'error',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: 'Okay',
+                    confirmButtonColor: '#0054a6',
+                })  
+            }
+
+            $('#registerAdminFormSubmit').attr('disabled', false)
+        }
+    });
+});
 
 
 // ----------------------------------
@@ -255,7 +351,6 @@ $( "#registerOfficeForm" ).submit(function( event ) {
             'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
         },
         success: function(response){
-            console.log(response)
             notyf.dismissAll();
 
             if (response.status == 'success'){
@@ -360,7 +455,6 @@ $( "#editregisterOfficeForm" ).submit(function( event ) {
             'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
         },
         success: function(response){
-            console.log(response)
             notyf.dismissAll();
 
             if (response.status == 'success'){

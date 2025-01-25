@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminManagementController;
 Route::get('/backend/admin/getProfile', [ProfileController::class, 'backend_getAdminProfile']);
 
 // Admin Management
+Route::post('/backend/admin/addAdmin', [AdminManagementController::class, 'backend_addAdmin']);
 Route::get('/backend/admin/getAdmin', [AdminManagementController::class, 'backend_getAdmin']);
 
 Route::post('/backend/admin/addOffice', [AdminManagementController::class, 'backend_addOffice']);

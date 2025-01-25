@@ -135,3 +135,10 @@
 - Add Backend Routes
 - Modified Admin Management AJAX
 - Office Management Features: Completed
+
+**v0.5.13**
+- January 25, 2025
+- Modified Controllers
+- Add Backend Routes
+- Modified Admin Management AJAX
+- Admin Management Features: In Progress

@@ -22,6 +22,84 @@ class AdminManagementController extends Controller
     // Admin Management Section
     // -------------------------
 
+    public function backend_addAdmin(Request $request)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                // Logics for Specific Validation
+                $verifyEmail = CustomUserTable::where('email', $request->email)->first();
+                if ($verifyEmail){
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Email Address already exists.'
+                    ], 409);
+                }
+                else {
+                    // Validate incoming data
+                    $validator = Validator::make($request->all(), [
+                        'last_name' => 'required|string|max:20',
+                        'first_name' => 'required|string|max:20',
+                        'middle_name' => 'nullable|string|max:20',
+                        'gender' => 'required|in:Male,Female,Prefer not to say', // Assuming a fixed set of gender values
+                        'email' => 'required|unique:custom_user_tables,email|max:40',  // Unique email validation
+                        'is_technician' => 'checked',  // Agreement checkbox validation
+                        'office' => 'required|string|max:40',
+                    ]);
+                    
+                    // Create User_Id
+                    $userId = (string) Str::uuid();
+            
+                    // If validation passes, create the new user
+                    $user = CustomUserTable::create([
+                        'user_id' => $userId,
+                        'email' => $request->email . '@sample.edu.ph',
+                        'password' => Hash::make('admin@123'),  // Securely hash the password
+                        'is_admin' => true,
+                        'login_attempts' => 0,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+    
+    
+                    // Fetch the Office
+                    $office = Office::where('office_id', $request->office)->first();
+        
+                    // Create Admin Profile
+                    $userprofile = AdminProfile::create([
+                        'profile_id' => (string) Str::uuid(),
+                        'user_id' => $user->user_id,
+                        'last_name' => $request->last_name,
+                        'first_name' => $request->first_name,
+                        'middle_name' => $request->middle_name,
+                        'gender' => $request->gender,
+                        'office_id' => $office->office_id,  // Ensure we have the correct office_id here
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+    
+    
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Add Admin Successful.',
+                    ], 201);
+                }
+            }
+        }
+        else {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
     public function backend_getAdmin(Request $request)
     {
         if (Auth::check()) {

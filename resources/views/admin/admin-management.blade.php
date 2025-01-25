@@ -18,17 +18,17 @@
                     <div class="row mb-3">
                         <div class="col-6">
                         <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                        <input type="text" id="add_last_name" class="form-control" placeholder="Enter Last Name" maxlength=20 required/>
+                        <input type="text" id="add_last_name" class="form-control no-numbers" placeholder="Enter Last Name" maxlength=20 required/>
                         </div>
                         <div class="col-6">
                         <label class="form-label">First Name <span class="text-danger">*</span></label>
-                        <input type="text" id="add_first_name" class="form-control" placeholder="Enter First Name" maxlength=20 required/>
+                        <input type="text" id="add_first_name" class="form-control no-numbers" placeholder="Enter First Name" maxlength=20 required/>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-6">
                         <label class="form-label">Middle Name</label>
-                        <input type="text" id="add_middle_name" class="form-control" placeholder="Enter Middle Name" maxlength=20>
+                        <input type="text" id="add_middle_name" class="form-control no-numbers" placeholder="Enter Middle Name" maxlength=20>
                         </div>
                         <div class="col-6">
                             <label class="form-label">Gender <span class="text-danger">*</span></label>
@@ -42,7 +42,10 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email Address <span class="text-danger">*</span></label>
-                        <input type="email" id="add_email" class="form-control" placeholder="Enter Email" maxlength=40 required/>
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" id="add_email" placeholder="Enter Email" maxlength=40 required/>
+                            <span class="input-group-text">@sample.edu.ph</span>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Office Assigned <span class="text-danger">*</span></label>
@@ -76,34 +79,10 @@
             </div>
             <div class="modal-body">
                 <form id="editregisterAdminForm" class="needs-validation" novalidate>
-                    <div class="row mb-3">
-                        <div class="col-6">
-                        <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                        <input type="text" id="edit_last_name" class="form-control" placeholder="Enter Last Name" maxlength=20 required/>
-                        </div>
-                        <div class="col-6">
-                        <label class="form-label">First Name <span class="text-danger">*</span></label>
-                        <input type="text" id="edit_first_name" class="form-control" placeholder="Enter First Name" maxlength=20 required/>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-6">
-                        <label class="form-label">Middle Name</label>
-                        <input type="text" id="edit_middle_name" class="form-control" placeholder="Enter Middle Name" maxlength=20>
-                        </div>
-                        <div class="col-6">
-                            <label class="form-label">Gender <span class="text-danger">*</span></label>
-                            <select class="form-select" id="edit_gender" required>
-                                <option selected="" value="" disabled>Gender</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Prefer not to say">Prefer not to say</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="mb-3">
-                        <label class="form-label">Email Address <span class="text-danger">*</span></label>
-                        <input type="email" id="edit_email" class="form-control" placeholder="Enter Email" maxlength=40 required/>
+                        <div class="d-flex">
+                            <h3>Admin Name: <span class="text-info" id="edit_name"></span></h3>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Office Assigned <span class="text-danger">*</span></label>
@@ -127,7 +106,7 @@
     </div>
 </div>
 
-<!-- Add Admin Modal -->
+<!-- Add Office Modal -->
 <div class="modal modal-blur fade" id="addOffice-modal" tabindex="-1" style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
@@ -150,7 +129,7 @@
     </div>
 </div>
 
-<!-- Edit Admin Modal -->
+<!-- Edit Office Modal -->
 <div class="modal modal-blur fade" id="editOffice-modal" tabindex="-1" style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
