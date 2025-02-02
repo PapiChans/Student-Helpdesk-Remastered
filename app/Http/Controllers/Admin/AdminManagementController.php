@@ -122,6 +122,7 @@ class AdminManagementController extends Controller
                     if ($office) {
                         // Store the required fields in an array
                         $adminData[] = [
+                            'profile_id' => $admin->profile_id,
                             'first_name' => $admin->first_name,
                             'last_name' => $admin->last_name,
                             'middle_name' => $admin->middle_name,
@@ -148,6 +149,118 @@ class AdminManagementController extends Controller
             }
         }
         else {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_getOneAdmin(Request $request, $profile_id)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                $admin = AdminProfile::where('profile_id', $profile_id)->first();
+
+                if ($admin) {   
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => "Access Granted.",
+                        'data' => $admin
+                    ], 200);
+                }
+                else {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => "Data not found.",
+                    ], 404);
+                }
+            }
+        }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_editAdmin(Request $request, $profile_id)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                // Get the Current Admin Data
+                $admin = AdminProfile::where('profile_id', $profile_id)->first();
+
+                // Update Admin data
+                $admin->office_id = $request->input('office_id');
+                $admin->is_technician = $request->input('is_technician');
+                $admin->updated_at = now();
+                $admin->save();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Edit Admin Successful.',
+                ], 201);
+            }
+        }
+        else {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_removeAdmin(Request $request, $profile_id)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                $adminprofile = AdminProfile::where('profile_id', $profile_id)->first();
+
+                if ($adminprofile) {   
+                    $admin = CustomUserTable::where('user_id', $adminprofile->user_id)->first();
+                    
+                    $adminprofile->delete();
+                    $admin->delete();
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => "Delete Office Successful.",
+                    ], 200);
+                }
+                else {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => "Data not found.",
+                    ], 404);
+                }
+            }
+        }
+        else 
+        {
             // If the User is Anonymous
             return response()->json([
                 'status' => 'error',

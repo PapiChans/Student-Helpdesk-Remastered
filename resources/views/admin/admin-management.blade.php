@@ -79,6 +79,7 @@
             </div>
             <div class="modal-body">
                 <form id="editregisterAdminForm" class="needs-validation" novalidate>
+                    <input type="hidden" id="edit_profile_id">
                     <div class="mb-3">
                         <div class="d-flex">
                             <h3>Admin Name: <span class="text-info" id="edit_name"></span></h3>

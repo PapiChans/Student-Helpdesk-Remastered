@@ -142,3 +142,10 @@
 - Add Backend Routes
 - Modified Admin Management AJAX
 - Admin Management Features: In Progress
+
+**v0.5.14**
+- February 2, 2025
+- Modified Controllers
+- Add Backend Routes
+- Modified Admin Management AJAX
+- Admin Management Features: Completed

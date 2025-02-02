@@ -11,6 +11,9 @@ Route::get('/backend/admin/getProfile', [ProfileController::class, 'backend_getA
 // Admin Management
 Route::post('/backend/admin/addAdmin', [AdminManagementController::class, 'backend_addAdmin']);
 Route::get('/backend/admin/getAdmin', [AdminManagementController::class, 'backend_getAdmin']);
+Route::get('/backend/admin/getOneAdmin/{admin_id}', [AdminManagementController::class, 'backend_getOneAdmin']);
+Route::put('/backend/admin/editAdmin/{profile_id}', [AdminManagementController::class, 'backend_editAdmin']);
+Route::delete('/backend/admin/removeAdmin/{admin_id}', [AdminManagementController::class, 'backend_removeAdmin']);
 
 Route::post('/backend/admin/addOffice', [AdminManagementController::class, 'backend_addOffice']);
 Route::get('/backend/admin/getOffice', [AdminManagementController::class, 'backend_getOffice']);

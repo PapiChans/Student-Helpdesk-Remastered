@@ -157,7 +157,9 @@ function getAdmin() {
                 data: null,
                 className: 'text-center align-content-center',
                 render: function(row) {
-                    return `<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editAdmin-modal">Edit</button>`
+                    return `
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editAdmin-modal" onclick="getOneAdmin('${row.profile_id}')">Edit</button>
+                    <button class="btn btn-danger" onclick="removeAdmin('${row.profile_id}', '${row.last_name}', '${row.first_name}')">Remove</button>`
                 }
             },
         ]
@@ -250,6 +252,177 @@ $( "#registerAdminForm" ).submit(function( event ) {
     });
 });
 
+// Get One Admin Data
+function getOneAdmin (profile_id) {
+    $.ajax({
+        type: "GET",
+        url: `/backend/admin/getOneAdmin/${profile_id}`,
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            $('#edit_profile_id').val(response.data.profile_id)
+            $('#edit_name').html(response.data.first_name +" " + response.data.last_name)
+            $('#edit_office').val(response.data.office_id)
+            if (response.data.is_technician == true) {
+                $('#edit_add_is_technician').prop('checked' , true)
+            }
+            else {
+                $('#edit_add_is_technician').prop('checked' , false)
+            }
+        },
+        error: function() {
+            notyf.error({
+                position: {x: 'right', y: 'top'},
+                duration: 2000,
+                ripple: true,
+                message: "There was an error while retrieving admin.",
+            });
+        }
+    });
+}
+
+// Edit Admin Function
+$( "#editregisterAdminForm" ).submit(function( event ) {
+    // Prevent the form from submitting
+    event.preventDefault();
+
+    var formData = {
+        profile_id: $( "#edit_profile_id" ).val(),
+        office_id: $( "#edit_office" ).val(),
+        is_technician: $( "#edit_add_is_technician" ).prop('checked')
+    };
+
+    // Check if the form is valid using HTML5 validation
+    if (!this.checkValidity()) {
+        return;  // Stop further execution
+    }
+
+    // This disables the button
+    $('#editregisterAdminFormSubmit').attr('disabled', true)
+
+    notyf.open({
+        position: {x: 'right', y: 'top'},
+        duration: 2000,
+        ripple: true,
+        message: 'Saving...',
+        background: '#f76707'
+    });
+    $.ajax({
+        type: "PUT",
+        url: `/backend/admin/editAdmin/${formData.profile_id}`,
+        data: formData,
+        dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            notyf.dismissAll();
+
+            if (response.status == 'success'){
+                notyf.success({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.message,
+                });
+
+                $('form#editregisterAdminForm')[0].reset();
+
+                var modalElement = document.getElementById('editAdmin-modal');
+                var modal = new bootstrap.Modal(modalElement);
+                modal.hide();
+
+                location.reload();
+            }
+            
+        },
+        error: function(response) {
+            notyf.dismissAll();
+            if (response.responseJSON.status == 'error'){
+                notyf.error({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.responseJSON.message,
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'There was an error while processing. Please try again.',
+                    icon: 'error',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: 'Okay',
+                    confirmButtonColor: '#0054a6',
+                })  
+            }
+
+            $('#editregisterAdminFormSubmit').attr('disabled', false)
+        }
+    });
+});
+
+// Remove Office
+function removeAdmin (profile_id, last_name, first_name) {
+    Swal.fire({
+        title: 'Are you Sure?',
+        text: `Do you want to remove ${first_name} ${last_name} as Admin?`,
+        icon: 'question',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonText: 'Yes',
+        confirmButtonColor: '#d63939',
+        showCancelButton: true,  // Optionally show a cancel button
+        cancelButtonText: 'Cancel',
+    })
+    .then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "DELETE",
+                url: `/backend/admin/removeAdmin/${profile_id}`,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response){
+                    notyf.success({
+                        position: {x: 'right', y: 'top'},
+                        duration: 2000,
+                        ripple: true,
+                        message: response.message,
+                    });
+    
+                    location.reload();
+                },
+                error: function(response) {
+                    if (response.responseJSON.status == 'error') {
+                        Swal.fire({
+                            title: 'Oops!',
+                            text: response.responseJSON.message,
+                            icon: 'error',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            confirmButtonText: 'Okay',
+                            confirmButtonColor: '#0054a6',
+                        }) 
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Oops!',
+                            text: 'There was an error while processing. Please try again.',
+                            icon: 'error',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            confirmButtonText: 'Okay',
+                            confirmButtonColor: '#0054a6',
+                        }) 
+                    }
+                }
+            });    
+        }
+    })
+}
 
 // ----------------------------------
 // Office Management
