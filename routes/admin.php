@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\AdminProfile;
 
 Route::get('/admin/home', function () {
     if (Auth::check()) {
@@ -22,12 +23,19 @@ Route::get('/admin/home', function () {
 
 // Admin Management Page
 Route::get('/admin/admin-management', function () {
+    $admincheck = AdminProfile::where('user_id', Auth::user()->user_id)->first();
     if (Auth::check()) {
         // Check if the user is logged in
         if (Auth::user()->is_admin) {
-            // If the user is an admin.
-            return view('admin/admin-management');
-        } else {
+            // If the user is not an admin.
+            if ($admincheck->is_master_admin != true || $admincheck->is_technician != true) {
+                return redirect()->route('admin/home');
+            }
+            else {
+                return view('admin/admin-management');
+            }
+        } 
+        else {
             // If the user is authenticated but not an admin, redirect to user home page
             return redirect()->route('user/home');
         }

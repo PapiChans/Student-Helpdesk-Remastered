@@ -149,3 +149,10 @@
 - Add Backend Routes
 - Modified Admin Management AJAX
 - Admin Management Features: Completed
+
+**v0.5.15**
+- February 3, 2025
+- Restricted Non Master Admins / Technicians Access Knowledgebase and Admin Management
+- Added Protection to prevent delete Master Admin
+- Adjust Admin Routes
+- Add Modals section on User Homepage

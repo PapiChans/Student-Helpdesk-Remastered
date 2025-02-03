@@ -157,9 +157,12 @@ function getAdmin() {
                 data: null,
                 className: 'text-center align-content-center',
                 render: function(row) {
-                    return `
-                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editAdmin-modal" onclick="getOneAdmin('${row.profile_id}')">Edit</button>
+                    let adminbuttons = null;
+                    if (row.is_master_admin == false) {
+                        adminbuttons = `<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editAdmin-modal" onclick="getOneAdmin('${row.profile_id}')">Edit</button>
                     <button class="btn btn-danger" onclick="removeAdmin('${row.profile_id}', '${row.last_name}', '${row.first_name}')">Remove</button>`
+                    }
+                    return adminbuttons
                 }
             },
         ]
