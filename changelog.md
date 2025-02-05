@@ -156,3 +156,7 @@
 - Added Protection to prevent delete Master Admin
 - Adjust Admin Routes
 - Add Modals section on User Homepage
+
+**v0.5.16**
+- February 5, 2025
+- Add Full Project Database Migrations and Models

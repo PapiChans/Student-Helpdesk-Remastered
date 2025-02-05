@@ -51,6 +51,26 @@ class CustomUserTable extends Authenticatable
         return $this->hasOne(AdminProfile::class, 'user_id', 'user_id');
     }
 
+    public function ticket()
+    {
+        return $this->hasMany(Ticket::class, 'user_id', 'user_id');
+    }
+
+    public function ticketcomment()
+    {
+        return $this->hasMany(TicketComment::class, 'user_id', 'user_id');
+    }
+
+    public function ticketratings()
+    {
+        return $this->hasMany(TicketRating::class, 'user_id', 'user_id');
+    }
+
+    public function evaluation()
+    {
+        return $this->hasMany(Evaluation::class, 'user_id', 'user_id');
+    }
+
     // Implement Authenticatable methods
     public function getAuthIdentifierName()
     {

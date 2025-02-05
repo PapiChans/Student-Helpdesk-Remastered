@@ -34,4 +34,9 @@ class Office extends Model
     {
         return $this->hasMany(AdminProfile::class, 'office_id', 'office_id');
     }
+
+    public function ticket()
+    {
+        return $this->hasMany(Ticket::class, 'office_id', 'office_id');
+    }
 }
