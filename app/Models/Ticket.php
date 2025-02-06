@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Ticket extends Model
 {
@@ -26,6 +28,7 @@ class Ticket extends Model
         'user_id',
         'ticket_number',
         'affiliation',
+        'office_id',
         'priority',
         'status',
         'type',

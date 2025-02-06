@@ -1,6 +1,7 @@
 <x-user-layout>
   @slot('customCSS')
-
+  <link href="{{ asset('libs/datatables/dataTables.min.css')}}" rel="stylesheet" />
+  <link href="{{ asset('libs/datatables/responsive.dataTables.min.css')}}" rel="stylesheet" />
   @endslot
 
   @slot('modals')
@@ -8,10 +9,24 @@
   @endslot
 
   @slot('content')
-    <h1>Welcome</h1>
+    <h1>Tickets</h1>
+    <table id="ticketTable" class="display table hover table-striped responsive nowrap" >
+        <thead>
+            <tr>
+                <th class="text-center">Ticket Number</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Priority</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Office</th>
+                <th class="text-center">Date Created</th>
+            </tr>
+        </thead>
+    </table>
   @endslot
 
   @slot('customJS')
+  <script src="{{ asset('libs/datatables/dataTables.min.js')}}" defer></script>
+  <script src="{{ asset('libs/datatables/dataTables.responsive.min.js')}}" defer></script>
   <script src="{{ asset('js/ajax/user/home.ajax.js')}}" defer></script>
   @endslot
 </x-user-layout>

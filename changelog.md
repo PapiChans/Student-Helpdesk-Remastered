@@ -160,3 +160,12 @@
 **v0.5.16**
 - February 5, 2025
 - Add Full Project Database Migrations and Models
+
+**v0.5.17**
+- February 6, 2025
+- Add Backend Controllers
+- Add Ticket Page for Users
+- Add Missing Plug-in / Includes at the New Models
+- Add Feature: Get Ticket (In Progress)
+- Modify User Page Components
+- Add Routes for User Front and Back End
