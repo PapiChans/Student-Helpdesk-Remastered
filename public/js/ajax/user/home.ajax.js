@@ -32,20 +32,17 @@ function getTicket() {
                 url: '/backend/user/getTickets',
                 ContentType: 'application/x-www-form-urlencoded',
                 headers: {'X-CSRFToken': csrfToken},
-                dataSrc: 'data',
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', error);
-                    console.log('Response Text:', xhr.responseText);
-                    notyf.error({
-                        position: {x: 'right', y: 'top'},
-                        duration: 2000,
-                        ripple: true,
-                        message: "There was an error while retrieving ticket data.",
-                    });
+                dataSrc: function (json) {
+                    // Check if the data field exists and is an array
+                    if (json.data && Array.isArray(json.data)) {
+                        // If data is empty, show the "No data found" message in the table
+                        if (json.data.length === 0) {
+                            return []; // Empty array triggers "No data found"
+                        }
+                        return json.data;
+                    }
+                    return []; // In case there's no data field or invalid response
                 },
-                success: function(data) {
-                    console.log('Data received:', data);  // Log successful response
-                }
             },
             language: {
                 emptyTable: "No data found"  // Custom message when the table has no data
@@ -76,14 +73,30 @@ function getTicket() {
                     data: null,
                     className: 'text-center align-content-center',
                     render: function(row) {
-                        return row.status;
+                        let badge = null;
+                        if (row.status == 'Pending') {
+                            badge =`<div class="badge bg-dark text-white">${row.status}</div>`
+                        }
+                        else if (row.status == 'In Progress') {
+                            badge =`<div class="badge bg-primary text-white">${row.status}</div>`
+                        }
+                        else if (row.status == 'Resolved') {
+                            badge =`<div class="badge bg-success text-white">${row.status}</div>`
+                        }
+                        else if (row.status == 'Closed') {
+                            badge =`<div class="badge bg-dark text-white">${row.status}</div>`
+                        }
+                        else {
+                            badge =`<div class="badge bg-dark">Unknown</div>`
+                        }
+                        return badge;
                     }
                 },
                 {
                     data: null,
                     className: 'text-center align-content-center',
                     render: function(row) {
-                        return row.office;
+                        return row.office_name;
                     }
                 },
                 {

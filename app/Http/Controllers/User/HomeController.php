@@ -49,6 +49,7 @@ class HomeController extends Controller
                             'resolved_date' => $ticket->resolved_date,
                             'service' => $ticket->service,
                             'office_name' => $office->office_name,
+                            'date_added' => $ticket->created_at,
                         ];
                     }
                 }
@@ -63,7 +64,8 @@ class HomeController extends Controller
                     return response()->json([
                         'status' => 'error',
                         'message' => "Data not found.",
-                    ], 404);
+                        'data' => []
+                    ], 200);
                 }
             }
         }

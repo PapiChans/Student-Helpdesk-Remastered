@@ -10,18 +10,22 @@
 
   @slot('content')
     <h1>Tickets</h1>
-    <table id="ticketTable" class="display table hover table-striped responsive nowrap" >
-        <thead>
-            <tr>
-                <th class="text-center">Ticket Number</th>
-                <th class="text-center">Type</th>
-                <th class="text-center">Priority</th>
-                <th class="text-center">Status</th>
-                <th class="text-center">Office</th>
-                <th class="text-center">Date Created</th>
-            </tr>
-        </thead>
-    </table>
+    <div class="card">
+      <div class="card-body">
+        <table id="ticketTable" class="display table hover table-striped responsive nowrap" >
+            <thead>
+                <tr>
+                    <th class="text-center">Ticket Number</th>
+                    <th class="text-center">Type</th>
+                    <th class="text-center">Priority</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Office</th>
+                    <th class="text-center">Date Created</th>
+                </tr>
+            </thead>
+        </table>
+      </div>
+    </div>
   @endslot
 
   @slot('customJS')

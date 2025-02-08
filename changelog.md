@@ -169,3 +169,12 @@
 - Add Feature: Get Ticket (In Progress)
 - Modify User Page Components
 - Add Routes for User Front and Back End
+
+**v0.5.18**
+- February 8, 2025
+- Add Feature: Create Ticket (User)
+- Add Feature: Get Ticket (Completed)
+- Removed 'Request' navbar list for Admin
+- Add Echarts Library
+- Add Home Charts for Admin
+- Add Backend Controllers and Routes

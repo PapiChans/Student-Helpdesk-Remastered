@@ -10,3 +10,7 @@ Route::get('/backend/user/getProfile', [ProfileController::class, 'backend_getUs
 
 // Home
 Route::get('/backend/user/getTickets', [HomeController::class, 'backend_getTickets']);
+
+// Ticket
+Route::post('/backend/user/addTicket', [TicketController::class, 'backend_addTicket']);
+Route::get('/backend/user/getOffice', [TicketController::class, 'backend_getOffice']);
