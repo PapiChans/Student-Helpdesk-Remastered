@@ -178,3 +178,9 @@
 - Add Echarts Library
 - Add Home Charts for Admin
 - Add Backend Controllers and Routes
+
+**v0.5.19**
+- February 10, 2025
+- Add Library: Flatpickr
+- Add Backend Controllers and Routes
+- Add Fetch Ticket Count by Office or Admin

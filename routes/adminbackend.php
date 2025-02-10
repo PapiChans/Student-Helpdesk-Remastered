@@ -4,9 +4,13 @@ use Illuminate\Support\Facades\Route;
 // Connect the Controllers
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminManagementController;
+use App\Http\Controllers\Admin\HomeController;
 
 // Get Profile
 Route::get('/backend/admin/getProfile', [ProfileController::class, 'backend_getAdminProfile']);
+
+// home
+Route::get('backend/admin/getTicketCount', [HomeController::class, 'backend_getTicketCount']);
 
 // Admin Management
 Route::post('/backend/admin/addAdmin', [AdminManagementController::class, 'backend_addAdmin']);
