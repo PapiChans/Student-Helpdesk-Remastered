@@ -5,12 +5,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminManagementController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\TicketController;
 
 // Get Profile
 Route::get('/backend/admin/getProfile', [ProfileController::class, 'backend_getAdminProfile']);
 
-// home
+// Home
+Route::post('backend/admin/getTicketCountByDate', [HomeController::class, 'backend_getTicketCountByDate']);
 Route::get('backend/admin/getTicketCount', [HomeController::class, 'backend_getTicketCount']);
+
+// Tickets
+Route::get('/backend/admin/getTickets', [TicketController::class, 'backend_getTickets']);
 
 // Admin Management
 Route::post('/backend/admin/addAdmin', [AdminManagementController::class, 'backend_addAdmin']);

@@ -30,13 +30,8 @@ class HomeController extends Controller
                 $userId = Auth::user();
                 $admin = AdminProfile::where('user_id', $userId->user_id)->first();
 
-                $currentMonth = Carbon::now()->format('m');
-                $currentYear = Carbon::now()->year;
-
                 $startOfMonth = Carbon::now()->startOfMonth();
                 $endOfMonth = Carbon::now()->endOfMonth();
-
-                $currentDate = $currentYear.'-'.$currentMonth;
 
                 if ($admin->is_technician == true || $admin->is_master_admin == true) {
                     $pendingCount = Ticket::whereBetween('created_at', [$startOfMonth, $endOfMonth])->where('status', 'Pending')->count();
@@ -63,12 +58,62 @@ class HomeController extends Controller
                     'closed_count' => $closedCount,
                     'office_Name' => $officeName,
                 ]);
-
-
             }
         }
         else 
         {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_getTicketCountByDate (Request $request)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                $userId = Auth::user();
+                $admin = AdminProfile::where('user_id', $userId->user_id)->first();
+
+                $monthYear = $request->month;
+
+                if ($admin->is_technician == true || $admin->is_master_admin == true) {
+                    $pendingCount = Ticket::whereRaw("to_char(created_at, 'YYYY-MM') LIKE ?", [$monthYear])->where('status', 'Pending')->count();
+                    $InProgressCount = Ticket::whereRaw("to_char(created_at, 'YYYY-MM') LIKE ?", [$monthYear])->where('status', 'In Progress')->count();
+                    $resolvedCount = Ticket::whereRaw("to_char(created_at, 'YYYY-MM') LIKE ?", [$monthYear])->where('status', 'Resolved')->count();
+                    $closedCount = Ticket::whereRaw("to_char(created_at, 'YYYY-MM') LIKE ?", [$monthYear])->where('status', 'Closed')->count();
+                    $officeName = 'All Offices';
+                }
+                else {
+                    $pendingCount = Ticket::whereRaw("to_char(created_at, 'YYYY-MM') LIKE ?", [$monthYear])->where('status', 'Pending')->where('office_id', $admin->office_id)->count();
+                    $InProgressCount = Ticket::whereRaw("to_char(created_at, 'YYYY-MM') LIKE ?", [$monthYear])->where('status', 'In Progress')->where('office_id', $admin->office_id)->count();
+                    $resolvedCount = Ticket::whereRaw("to_char(created_at, 'YYYY-MM') LIKE ?", [$monthYear])->where('status', 'Resolved')->where('office_id', $admin->office_id)->count();
+                    $closedCount = Ticket::whereRaw("to_char(created_at, 'YYYY-MM') LIKE ?", [$monthYear])->where('status', 'Closed')->where('office_id', $admin->office_id)->count();
+                    $getOfficeName = Office::where('office_id', $admin->office_id)->first();
+                    $officeName = $getOfficeName->office_name;
+                }
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Access Granted.",
+                    'pending_count' => $pendingCount,
+                    'in_progress_count' => $InProgressCount,
+                    'resolved_count' => $resolvedCount,
+                    'closed_count' => $closedCount,
+                    'office_Name' => $officeName,
+                ]);
+            }
+        }
+        else {
             // If the User is Anonymous
             return response()->json([
                 'status' => 'error',

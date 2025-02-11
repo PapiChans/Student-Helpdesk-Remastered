@@ -184,3 +184,10 @@
 - Add Library: Flatpickr
 - Add Backend Controllers and Routes
 - Add Fetch Ticket Count by Office or Admin
+
+**v0.5.20**
+- February 11, 2025
+- Add Ticket Viewing for User for a while
+- Add Backend Controllers and Routes
+- Add View Ticket Page
+- Custom Date for Ticket Analytic on admin is now Available
