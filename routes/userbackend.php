@@ -14,3 +14,6 @@ Route::get('/backend/user/getTickets', [HomeController::class, 'backend_getTicke
 // Ticket
 Route::post('/backend/user/addTicket', [TicketController::class, 'backend_addTicket']);
 Route::get('/backend/user/getOffice', [TicketController::class, 'backend_getOffice']);
+
+// View Ticket
+Route::get('/backend/user/getTicketInfo/{ticket_number}', [TicketController::class, 'backend_getTicketInfo']);

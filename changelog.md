@@ -191,3 +191,10 @@
 - Add Backend Controllers and Routes
 - Add View Ticket Page
 - Custom Date for Ticket Analytic on admin is now Available
+
+**v0.5.21**
+- February 12, 2025
+- Fetch Ticket Info
+- Add Security for User-only access and prevent URL bypass
+- Add Backend Controllers and Routes
+- Make the User Table Ticket a Hypelink directly to viewing ticket

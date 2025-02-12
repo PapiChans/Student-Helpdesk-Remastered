@@ -20,9 +20,13 @@
                                 <h3>Ticket Number</h3>
                                 <p id="ticket_Number_info"></p>
                                 <h3>Requester</h3>
-                                <p id="ticket_Title_info"></p>
+                                <p id="ticket_Name_info"></p>
+                                <h3>Affiliation</h3>
+                                <p id="ticket_Affiliation_info"></p>
                                 <h3>Date Created</h3>
                                 <p id="ticket_Date_info"></p>
+                                <h3>Priority</h3>
+                                <p id="ticket_Priority_info"></p>
                                 <h3>Office</h3>
                                 <p id="ticket_Office_info"></p>
                                 <h3>Service</h3>
