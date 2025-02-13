@@ -198,3 +198,10 @@
 - Add Security for User-only access and prevent URL bypass
 - Add Backend Controllers and Routes
 - Make the User Table Ticket a Hypelink directly to viewing ticket
+
+**v0.5.22**
+- February 13, 2025
+- Fetch Ticket Info
+- Add Security for Not found Ticket Redirect
+- Add Backend Controllers and Routes
+- Add Comment adding and Viewing

@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use App\Models\CustomUserTable;
 use App\Models\UserProfile;
 use App\Models\Ticket;
+use App\Models\TicketComment;
 use App\Models\Office;
 
 class TicketController extends Controller
@@ -178,6 +179,80 @@ class TicketController extends Controller
                         'message' => "Data not found.",
                     ], 404);
                 }
+            }
+        }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_addTicketComment(Request $request)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                // Get User
+                $user = Auth::user();
+
+                // Get the Ticket
+                $ticket = Ticket::where('ticket_id', $request->ticket_id)->first();
+
+                // Create Ticket Comment
+                $addTicketComment = TicketComment::create([
+                    'comment_id' => (string) Str::uuid(),
+                    'ticket_id' => $ticket->ticket_id,
+                    'user_id' => $user->user_id,
+                    'comment' => $request->comment,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Add Comment Successful.',
+                ], 201);
+            }
+        }
+        else {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_getTicketComment(Request $request, $ticket_number)
+    {
+        if (Auth::check()) {
+            // Check if the user is an admin
+            if (Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                $user = Auth::user();
+                $ticket = Ticket::where('ticket_number', $ticket_number)->first();
+                $comment = TicketComment::where('ticket_id', $ticket->ticket_id)->get();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Access Granted.",
+                    'user_id' => $user->user_id,
+                    'data' => $comment,
+                ], 200);
             }
         }
         else 
