@@ -17,6 +17,12 @@ Route::get('backend/admin/getTicketCount', [HomeController::class, 'backend_getT
 // Tickets
 Route::get('/backend/admin/getTickets', [TicketController::class, 'backend_getTickets']);
 
+// View Ticket
+Route::get('/backend/admin/getTicketInfo/{ticket_number}', [TicketController::class, 'backend_getTicketInfo']);
+Route::get('/backend/admin/getTicketComment/{ticket_number}', [TicketController::class, 'backend_getTicketComment']);
+Route::get('/backend/admin/getAuditTrails/{ticket_number}', [TicketController::class, 'backend_getAuditTrail']);
+Route::post('/backend/admin/addTicketComment', [TicketController::class, 'backend_addTicketComment']);
+
 // Admin Management
 Route::post('/backend/admin/addAdmin', [AdminManagementController::class, 'backend_addAdmin']);
 Route::get('/backend/admin/getAdmin', [AdminManagementController::class, 'backend_getAdmin']);

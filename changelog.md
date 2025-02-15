@@ -205,3 +205,9 @@
 - Add Security for Not found Ticket Redirect
 - Add Backend Controllers and Routes
 - Add Comment adding and Viewing
+
+**v0.5.23**
+- February 15, 2025
+- Add Backend Controllers and Routes
+- Add Admin Ticket View
+- Copying the Backend of Ticket View from User to Admin

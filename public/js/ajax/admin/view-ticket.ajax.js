@@ -63,7 +63,7 @@ function formatTimeAgo(timestamp) {
 function getTicketInfo (ticket_number) {
     $.ajax({
         type: "GET",
-        url: `/backend/user/getTicketInfo/${ticket_number}`,
+        url: `/backend/admin/getTicketInfo/${ticket_number}`,
         headers: {
             'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
         },
@@ -103,7 +103,7 @@ function getTicketInfo (ticket_number) {
                 });
 
                 setTimeout(() => {
-                    window.location.href = '/user/home';
+                    window.location.href = '/admin/ticket';
                 }, 1000)
 
             }
@@ -117,7 +117,7 @@ function getTicketInfo (ticket_number) {
             });
 
             setTimeout(() => {
-                window.location.href = '/user/home';
+                window.location.href = '/admin/ticket';
             }, 1000)
         }
     });
@@ -150,7 +150,7 @@ $( "#AddCommentForm" ).submit(function( event ) {
     });
     $.ajax({
         type: "POST",
-        url: "/backend/user/addTicketComment",
+        url: "/backend/admin/addTicketComment",
         data: formData,
         dataType: "json",
         headers: {
@@ -202,7 +202,7 @@ $( "#AddCommentForm" ).submit(function( event ) {
 function getTicketComment (ticket_number) {
     $.ajax({
         type: "GET",
-        url: `/backend/user/getTicketComment/${ticket_number}`,
+        url: `/backend/admin/getTicketComment/${ticket_number}`,
         headers: {
             'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
         },
@@ -283,7 +283,7 @@ function getTicketComment (ticket_number) {
 function getTicketTrails(ticket_number) {
     $.ajax({
         type: "GET",
-        url: `/backend/user/getAuditTrails/${ticket_number}`,
+        url: `/backend/admin/getAuditTrails/${ticket_number}`,
         headers: {
             'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
         },

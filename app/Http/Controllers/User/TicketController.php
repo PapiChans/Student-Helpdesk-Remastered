@@ -14,6 +14,7 @@ use App\Models\UserProfile;
 use App\Models\Ticket;
 use App\Models\TicketComment;
 use App\Models\Office;
+use App\Models\AuditTrail;
 
 class TicketController extends Controller
 {
@@ -52,7 +53,11 @@ class TicketController extends Controller
                     'service' => $request->service,
                 ]);
 
-
+                // For Trail
+                $reference = $request->ticket_number;
+                $action = 'Created';
+                $description = $request->ticket_number." ".'has been created.';
+                $this->backend_addTrail($reference, $action, $description);
 
                 return response()->json([
                     'status' => 'success',
@@ -245,13 +250,55 @@ class TicketController extends Controller
             } else {
                 $user = Auth::user();
                 $ticket = Ticket::where('ticket_number', $ticket_number)->first();
-                $comment = TicketComment::where('ticket_id', $ticket->ticket_id)->get();
+                $comment = TicketComment::where('ticket_id', $ticket->ticket_id)->orderBy('created_at', 'asc')->get();
 
                 return response()->json([
                     'status' => 'success',
                     'message' => "Access Granted.",
                     'user_id' => $user->user_id,
                     'data' => $comment,
+                ], 200);
+            }
+        }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    // Add Trail
+    public function backend_addTrail($reference, $action, $description)
+    {
+        AuditTrail::create([
+            'audit_id' => (string) Str::uuid(),
+            'reference' => $reference,
+            'action' => $action,
+            'description' => $description,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+    }
+
+    public function backend_getAuditTrail(Request $request)
+    {
+        if (Auth::check()) {
+            // Check if the user is an admin
+            if (Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                $trail = AuditTrail::where('reference', $request->ticket_number)->orderBy('created_at', 'asc')->get();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Access Granted.",
+                    'data' => $trail,
                 ], 200);
             }
         }

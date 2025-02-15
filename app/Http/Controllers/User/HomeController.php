@@ -27,7 +27,7 @@ class HomeController extends Controller
             } else {
                 $userId = Auth::user()->user_id;
 
-                $tickets = Ticket::where('user_id', $userId)->get();
+                $tickets = Ticket::where('user_id', $userId)->orderBy('created_at', 'asc')->get();
 
                 // Prepare an array
                 $ticketData = [];

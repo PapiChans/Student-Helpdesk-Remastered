@@ -38,6 +38,21 @@ Route::get('/admin/ticket', function () {
     }
 })->name('admin/ticket');
 
+Route::get('admin/view/ticket', function () {
+    if (Auth::check()) {
+        // Check if the user is logged in
+        if (!Auth::user()->is_admin) {
+            // If the user is an admin, redirect to admin home page
+            return redirect()->route('user/home');
+        } else {
+            return view('admin/view-ticket');
+        }
+    } else {
+        // If the user is not authenticated, redirect to login page
+        return redirect()->route('login');
+    }
+})->name('admin/view/ticket');
+
 
 // Admin Management Page
 Route::get('/admin/admin-management', function () {

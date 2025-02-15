@@ -1,4 +1,4 @@
-<x-user-layout>
+<x-admin-layout>
   @slot('customCSS')
 
   @endslot
@@ -87,6 +87,6 @@
 
   @slot('customJS')
   <script src="{{ asset('libs/bootstrap/validation.js')}}" defer></script>
-  <script src="{{ asset('js/ajax/user/view-ticket.ajax.js')}}" defer></script>
+  <script src="{{ asset('js/ajax/admin/view-ticket.ajax.js')}}" defer></script>
   @endslot
-</x-user-layout>
+</x-admin-layout>

@@ -52,7 +52,8 @@ function getTicket() {
                     data: null,
                     className: 'text-center align-content-center',
                     render: function(row) {
-                        return row.ticket_number;
+                        let link = `<a href="/admin/view/ticket?t=${row.ticket_number}">${row.ticket_number}</a>`
+                        return link;
                     }
                 },
                 {
