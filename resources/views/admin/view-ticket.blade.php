@@ -17,6 +17,17 @@
                         <div class="row align-items-center flex-fill">
                             <div class="col text-body">
                                 <input type="hidden" id="ticket_Id_info">
+                                <div id="showChangeOffice">
+                                <h3>Re-assign Office</h3>
+                                    <form id="reassignOfficeForm" class="needs-validation mt-2 mb-2" novalidate>
+                                            <label class="form-label">Office Assigned <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="re_assign_office" required>
+                                            <option selected="" value="" disabled>Select Office</option>
+                                    
+                                        </select>
+                                        <button type="submit" id="reassignOfficeFormSubmit" class="btn btn-primary mt-2 mb-2">Save Changes</button>
+                                    </form>
+                                </div>
                                 <h3>Ticket Number</h3>
                                 <p id="ticket_Number_info"></p>
                                 <h3>Requester</h3>

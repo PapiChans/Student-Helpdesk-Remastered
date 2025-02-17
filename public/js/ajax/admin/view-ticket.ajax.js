@@ -12,6 +12,40 @@ $( document ).ready(function() {
     getTicketInfo(ticket_number);
 });
 
+
+// Get office Choices
+function getOfficeChoice() {
+
+    const add_office = $('#re_assign_office'); 
+
+    $.ajax({
+        type: "GET",
+        url: "/backend/admin/getOffice",
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            if (response.data && response.data.length > 0) {
+                response.data.forEach((officeData) => {
+                    let officeChoices = `
+                    <option value="${officeData.office_id}">${officeData.office_name}</option>
+                    `
+
+                    add_office.append(officeChoices);
+                });
+            }
+        },
+        error: function() {
+            notyf.error({
+                position: {x: 'right', y: 'top'},
+                duration: 2000,
+                ripple: true,
+                message: "There was an error while retrieving offices.",
+            });
+        }
+    });
+}
+
 // Posgres Timestamp Function
 function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
@@ -92,6 +126,14 @@ function getTicketInfo (ticket_number) {
                 }
                 else {
                     $('#resolved_Date_info').html('Not Yet Resolved'); 
+                }
+
+                if (response.admin == false) {
+                    let showChangeOffice = $('#showChangeOffice');
+                        showChangeOffice.html(null);
+                }
+                else {
+                    getOfficeChoice();
                 }
             }
             else {
@@ -318,3 +360,79 @@ function getTicketTrails(ticket_number) {
         }
     }
 )};
+
+// Change Office Function
+$( "#reassignOfficeForm" ).submit(function( event ) {
+    // Prevent the form from submitting
+    event.preventDefault();
+
+    var formData = {
+        ticket_id: $(" #ticket_Id_info").val(),
+        office_id: $( "#re_assign_office" ).val(),
+    };
+
+    // Check if the form is valid using HTML5 validation
+    if (!this.checkValidity()) {
+        return;  // Stop further execution
+    }
+
+    // This disables the button
+    $('#reassignOfficeFormSubmit').attr('disabled', true)
+
+    notyf.open({
+        position: {x: 'right', y: 'top'},
+        duration: 2000,
+        ripple: true,
+        message: 'Saving...',
+        background: '#f76707'
+    });
+    $.ajax({
+        type: "POST",
+        url: "/backend/admin/changeTicketOffice",
+        data: formData,
+        dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            notyf.dismissAll();
+            if (response.status == 'success'){
+                notyf.success({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.message,
+                });
+
+                $('form#reassignOfficeForm')[0].reset();
+
+                location.reload();
+            }
+            
+        },
+        error: function(response) {
+            notyf.dismissAll();
+            if (response.responseJSON.status == 'error'){
+                notyf.error({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.responseJSON.message,
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'There was an error while processing. Please try again.',
+                    icon: 'error',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: 'Okay',
+                    confirmButtonColor: '#0054a6',
+                })  
+            }
+
+            $('#reassignOfficeFormSubmit').attr('disabled', false)
+        }
+    });
+});

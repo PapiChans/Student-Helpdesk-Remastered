@@ -211,3 +211,9 @@
 - Add Backend Controllers and Routes
 - Add Admin Ticket View
 - Copying the Backend of Ticket View from User to Admin
+
+**v0.5.24**
+- February 17, 2025
+- Add Backend Controllers and Routes
+- Master Admin and Technician can Re-assigned ticket Offices
+- Admins can now add comments

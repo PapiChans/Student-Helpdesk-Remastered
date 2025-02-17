@@ -128,12 +128,17 @@ class TicketController extends Controller
                     $admin = Auth::user();
                     $adminProfile = AdminProfile::where('user_id', $admin->user_id)->first();
 
-                    if ($adminProfile->office_id == $ticket->office_id) {
+                    if ($adminProfile->office_id == $ticket->office_id || $adminProfile->is_technician == true || $adminProfile->is_master_admin == true) {
+                        $userIsAdmin = false;
+                        if ($adminProfile->is_technician == true || $adminProfile->is_master_admin == true) {
+                            $userIsAdmin = true;
+                        }
                         return response()->json([
                             'status' => 'success',
                             'message' => "Access Granted.",
                             'data' => $ticketData,
                             'verify' => 'matched',
+                            'admin' => $userIsAdmin
                         ], 200);
                     }
                     else {
@@ -155,6 +160,48 @@ class TicketController extends Controller
         }
         else 
         {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_addTicketComment(Request $request)
+    {
+        if (Auth::check()) {
+            // Check if the user is admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                // Get User
+                $user = Auth::user();
+
+                // Get the Ticket
+                $ticket = Ticket::where('ticket_id', $request->ticket_id)->first();
+
+                // Create Ticket Comment
+                $addTicketComment = TicketComment::create([
+                    'comment_id' => (string) Str::uuid(),
+                    'ticket_id' => $ticket->ticket_id,
+                    'user_id' => $user->user_id,
+                    'comment' => $request->comment,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Add Comment Successful.',
+                ], 201);
+            }
+        }
+        else {
             // If the User is Anonymous
             return response()->json([
                 'status' => 'error',
@@ -195,6 +242,49 @@ class TicketController extends Controller
         }
     }
 
+    public function backend_changeTicketOffice(Request $request)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                // Get the Ticket
+                $ticket = Ticket::where('ticket_id', $request->ticket_id)->first();
+                // Get the Old Ticket Office
+                $oldOffice = Office::where('office_id', $ticket->office_id)->first();
+                // Fetch the New Ticket Office
+                $newOffice = Office::where('office_id', $request->office_id)->first();
+
+                // Update office data
+                $ticket->office_id = $request->input('office_id');
+                $ticket->updated_at = now();
+                $ticket->save();
+
+                // For Trail
+                $reference = $ticket->ticket_number;
+                $action = 'Re-assign Office';
+                $description = $ticket->ticket_number." ".'has re-assigned from'." ".$oldOffice->office_name." to ".$newOffice->office_name;
+                $this->backend_addTrail($reference, $action, $description);
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Edit Office Successful.',
+                ], 201);
+            }
+        }
+        else {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
     public function backend_getAuditTrail(Request $request)
     {
         if (Auth::check()) {
@@ -222,5 +312,18 @@ class TicketController extends Controller
                 'message' => "Unauthorized Access.",
             ], 409);
         }
+    }
+
+    // Add Trail
+    public function backend_addTrail($reference, $action, $description)
+    {
+        AuditTrail::create([
+            'audit_id' => (string) Str::uuid(),
+            'reference' => $reference,
+            'action' => $action,
+            'description' => $description,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 }
