@@ -314,6 +314,85 @@ class TicketController extends Controller
         }
     }
 
+    public function backend_resolveTicket(Request $request, $ticket_number)
+    {
+        if (Auth::check()) {
+            // Check if the user is not an admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                $ticket = Ticket::where('ticket_number', $ticket_number)->first();
+
+                $ticket->status = 'Resolved';
+                $ticket->updated_at = now();
+                $ticket->resolved_date = now();
+                $ticket->save();
+
+                // For Trail
+                $reference = $ticket->ticket_number;
+                $action = 'Resolved';
+                $description = $ticket->ticket_number." ".'has been resolved.';
+                $this->backend_addTrail($reference, $action, $description);
+
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Ticket Resolved.",
+                ], 200);
+            }
+        }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_closeTicket(Request $request, $ticket_number)
+    {
+        if (Auth::check()) {
+            // Check if the user is not an admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                $ticket = Ticket::where('ticket_number', $ticket_number)->first();
+
+                $ticket->status = 'Closed';
+                $ticket->updated_at = now();
+                $ticket->save();
+
+                // For Trail
+                $reference = $ticket->ticket_number;
+                $action = 'Closed';
+                $description = $ticket->ticket_number." ".'has been closed.';
+                $this->backend_addTrail($reference, $action, $description);
+
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Ticket Resolved.",
+                ], 200);
+            }
+        }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
     // Add Trail
     public function backend_addTrail($reference, $action, $description)
     {

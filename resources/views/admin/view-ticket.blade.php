@@ -8,6 +8,11 @@
   @endslot
 
   @slot('content')
+<div class="row" id="show-resolved-button">
+    <div class="col-12 d-flex justify-content-end">
+        <button class="btn btn-success m-1" id="resolve_Button" onclick="resolveTicket()" disabled>Resolve Ticket</button>
+    </div>
+</div>
 <div class="card">
     <div class="row g-0">
         <div class="col-12 col-lg-5 col-xl-3 border-end">

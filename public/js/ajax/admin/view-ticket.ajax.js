@@ -10,6 +10,7 @@ const ticket_number = searchParams.get('t');
 
 $( document ).ready(function() {
     getTicketInfo(ticket_number);
+    $('#comment_Submit').attr('disabled', true)
 });
 
 
@@ -128,6 +129,7 @@ function getTicketInfo (ticket_number) {
                     $('#resolved_Date_info').html('Not Yet Resolved'); 
                 }
 
+                // Check if the Admin is an Maser Admin  / Technician for Changing office function
                 if (response.admin == false) {
                     let showChangeOffice = $('#showChangeOffice');
                         showChangeOffice.html(null);
@@ -135,6 +137,23 @@ function getTicketInfo (ticket_number) {
                 else {
                     getOfficeChoice();
                 }
+
+                // Check the Status of the Ticket for Resolved button
+                if (response.data[0].status == 'Resolved' || response.data[0].status == 'Closed') {
+                    let show_resolved_button = $('#show-resolved-button');
+                    show_resolved_button.html(null);
+
+                    // Also call a function where it closes the Comment form
+                    changeForm(response.data[0].status);
+                }
+                else {
+                    let resolve_Button = $('#resolve_Button');
+
+                    resolve_Button.attr('disabled', false);
+                }
+
+                // Disables the Submit Comment Button
+                $('#comment_Submit').attr('disabled', false)
             }
             else {
                 notyf.error({
@@ -361,78 +380,166 @@ function getTicketTrails(ticket_number) {
     }
 )};
 
-// Change Office Function
-$( "#reassignOfficeForm" ).submit(function( event ) {
-    // Prevent the form from submitting
-    event.preventDefault();
-
-    var formData = {
-        ticket_id: $(" #ticket_Id_info").val(),
-        office_id: $( "#re_assign_office" ).val(),
-    };
-
-    // Check if the form is valid using HTML5 validation
-    if (!this.checkValidity()) {
-        return;  // Stop further execution
-    }
-
-    // This disables the button
-    $('#reassignOfficeFormSubmit').attr('disabled', true)
-
-    notyf.open({
-        position: {x: 'right', y: 'top'},
-        duration: 2000,
-        ripple: true,
-        message: 'Saving...',
-        background: '#f76707'
-    });
-    $.ajax({
-        type: "POST",
-        url: "/backend/admin/changeTicketOffice",
-        data: formData,
-        dataType: "json",
-        headers: {
-            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
-        },
-        success: function(response){
-            notyf.dismissAll();
-            if (response.status == 'success'){
-                notyf.success({
-                    position: {x: 'right', y: 'top'},
-                    duration: 2000,
-                    ripple: true,
-                    message: response.message,
-                });
-
-                $('form#reassignOfficeForm')[0].reset();
-
-                location.reload();
-            }
-            
-        },
-        error: function(response) {
-            notyf.dismissAll();
-            if (response.responseJSON.status == 'error'){
-                notyf.error({
-                    position: {x: 'right', y: 'top'},
-                    duration: 2000,
-                    ripple: true,
-                    message: response.responseJSON.message,
-                });
-            }
-            else {
-                Swal.fire({
-                    title: 'Oops!',
-                    text: 'There was an error while processing. Please try again.',
-                    icon: 'error',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    confirmButtonText: 'Okay',
-                    confirmButtonColor: '#0054a6',
-                })  
-            }
-
-            $('#reassignOfficeFormSubmit').attr('disabled', false)
+// Resolved Ticket
+function resolveTicket() {
+    Swal.fire({
+        title: 'Resolving Ticket?',
+        text: `Do you want to resolved this Ticket?`,
+        icon: 'question',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonText: 'Yes',
+        confirmButtonColor: '#d63939',
+        showCancelButton: true,  // Optionally show a cancel button
+        cancelButtonText: 'Cancel',
+    })
+    .then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "PUT",
+                url: `/backend/admin/resolveTicket/${ticket_number}`,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response){
+                    notyf.success({
+                        position: {x: 'right', y: 'top'},
+                        duration: 2000,
+                        ripple: true,
+                        message: response.message,
+                    });
+    
+                    location.reload();
+                },
+                error: function(response) {
+                    console.log(response)
+                    if (response.responseJSON.status == 'error') {
+                        Swal.fire({
+                            title: 'Oops!',
+                            text: response.responseJSON.message,
+                            icon: 'error',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            confirmButtonText: 'Okay',
+                            confirmButtonColor: '#0054a6',
+                        }) 
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Oops!',
+                            text: 'There was an error while processing. Please try again.',
+                            icon: 'error',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            confirmButtonText: 'Okay',
+                            confirmButtonColor: '#0054a6',
+                        }) 
+                    }
+                }
+            });    
         }
-    });
-});
+    })
+}
+
+// Closed Ticket
+function closeTicket() {
+    Swal.fire({
+        title: 'Close Ticket?',
+        text: `Do you want to close this Ticket?`,
+        icon: 'question',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonText: 'Yes',
+        confirmButtonColor: '#d63939',
+        showCancelButton: true,  // Optionally show a cancel button
+        cancelButtonText: 'Cancel',
+    })
+    .then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "PUT",
+                url: `/backend/admin/closeTicket/${ticket_number}`,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response){
+                    notyf.success({
+                        position: {x: 'right', y: 'top'},
+                        duration: 2000,
+                        ripple: true,
+                        message: response.message,
+                    });
+    
+                    location.reload();
+                },
+                error: function(response) {
+                    console.log(response)
+                    if (response.responseJSON.status == 'error') {
+                        Swal.fire({
+                            title: 'Oops!',
+                            text: response.responseJSON.message,
+                            icon: 'error',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            confirmButtonText: 'Okay',
+                            confirmButtonColor: '#0054a6',
+                        }) 
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Oops!',
+                            text: 'There was an error while processing. Please try again.',
+                            icon: 'error',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            confirmButtonText: 'Okay',
+                            confirmButtonColor: '#0054a6',
+                        }) 
+                    }
+                }
+            });    
+        }
+    })
+}
+
+// Change forms
+function changeForm(status) {
+    let formshoworhide = $('#formshoworhide');
+    formshoworhide.html(null);
+    resolved_layout = `
+    <div class="justify-content-center">
+        <div class="col-12 justify-content-center d-flex">
+            <h3>Ticket Resolved.</h3>
+        </div>
+        <div class="col-12 justify-content-center d-flex">
+            <p>The client will informed in this action.</p>
+        </div>
+        <div class="row">
+            <div class="col-12 justify-content-center d-flex">
+                <a class="btn btn-info m-1" data-bs-toggle="offcanvas" href="#trailOffCanvas" role="button" aria-controls="offcanvasEnd">View trail</a>
+                <button class="btn btn-success m-1" id="close_Button" onclick="closeTicket()">Close Ticket</button>
+            </div>
+        </div>
+    </div>
+    `
+    closed_layout = `
+    <div class="justify-content-center">
+        <div class="col-12 justify-content-center d-flex">
+            <h3>Ticket Closed.</h3>
+        </div>
+        <div class="col-12 justify-content-center d-flex">
+            <p>This Ticket is now closed.</p>
+        </div>
+        <div class="col-12 justify-content-center d-flex">
+            <a class="btn btn-info m-1" data-bs-toggle="offcanvas" href="#trailOffCanvas" role="button" aria-controls="offcanvasEnd">View trail</a>
+            <button class="btn btn-info m-1">View Rating</button>
+        </div>
+    </div>
+    `
+    if (status == 'Resolved') {
+        formshoworhide.append(resolved_layout)
+    }
+    else if (status == 'Closed') {
+        formshoworhide.append(closed_layout)
+    }
+}

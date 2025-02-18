@@ -217,3 +217,9 @@
 - Add Backend Controllers and Routes
 - Master Admin and Technician can Re-assigned ticket Offices
 - Admins can now add comments
+
+**v0.5.25**
+- February 18, 2025
+- Add Backend Controllers and Routes
+- Admin: Can you Resolve and Close Tickets
+- Add views layout if the Ticket are close or resolved.
