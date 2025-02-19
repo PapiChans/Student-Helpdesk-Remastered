@@ -10,6 +10,7 @@ const ticket_number = searchParams.get('t');
 
 $( document ).ready(function() {
     getTicketInfo(ticket_number);
+    $('#comment_Submit').attr('disabled', true)
 });
 
 // Posgres Timestamp Function
@@ -92,6 +93,17 @@ function getTicketInfo (ticket_number) {
                 }
                 else {
                     $('#resolved_Date_info').html('Not Yet Resolved'); 
+                }
+
+                // Check the Status of the Ticket for Resolved button
+                if (response.data[0].status == 'Resolved' || response.data[0].status == 'Closed') {
+
+                    // call a function where it closes the Comment form
+                    changeForm(response.data[0].status);
+                }
+                else {
+                    // Disables the comment submit button
+                    $('#comment_Submit').attr('disabled', false);
                 }
             }
             else {
@@ -318,3 +330,166 @@ function getTicketTrails(ticket_number) {
         }
     }
 )};
+
+// Change forms
+function changeForm(status) {
+    let formshoworhide = $('#formshoworhide');
+    formshoworhide.html(null);
+    resolved_layout = `
+    <div class="justify-content-center">
+        <div class="col-12 justify-content-center d-flex">
+            <h3>Ticket Resolved.</h3>
+        </div>
+        <div class="col-12 justify-content-center d-flex">
+            <p>Please take your time to rate our service.</p>
+        </div>
+        <div class="row">
+            <div class="col-12 justify-content-center d-flex">
+                <a class="btn btn-info m-1" data-bs-toggle="offcanvas" href="#trailOffCanvas" role="button" aria-controls="offcanvasEnd">View trail</a>
+                <button class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#rateTicket-modal">Rate Service</button>
+            </div>
+        </div>
+    </div>
+    `
+    closed_layout = `
+    <div class="justify-content-center">
+        <div class="col-12 justify-content-center d-flex">
+            <h3>Ticket Closed.</h3>
+        </div>
+        <div class="col-12 justify-content-center d-flex">
+            <p>This Ticket is now closed, you may create a new one.</p>
+        </div>
+        <div class="col-12 justify-content-center d-flex">
+            <a class="btn btn-info m-1" data-bs-toggle="offcanvas" href="#trailOffCanvas" role="button" aria-controls="offcanvasEnd">View trail</a>
+            <button class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#rateTicket-modal">Rate Service</button>
+        </div>
+    </div>
+    `
+    if (status == 'Resolved') {
+        formshoworhide.append(resolved_layout)
+    }
+    else if (status == 'Closed') {
+        formshoworhide.append(closed_layout)
+    }
+}
+
+// Introduce Star rating
+var stars = new StarRating('.star-rating');
+
+// Add Comment Function
+$( "#rateTicketForm" ).submit(function( event ) {
+    // Prevent the form from submitting
+    event.preventDefault();
+
+    
+    // Check if the form is valid using HTML5 validation
+    if (!this.checkValidity()) {
+        return;  // Stop further execution
+    }
+    
+    var ratings = [
+        "#ticket_rating", "#eval_QA", "#eval_QB", "#eval_QC", "#eval_QD", 
+        "#eval_QE", "#eval_QF", "#eval_QG", "#eval_QH"
+    ];
+
+    var allRatingsValid = true;
+
+    // Check if any rating is empty
+    for (var i = 0; i < ratings.length; i++) {
+        var ratingValue = $(ratings[i]).val();  
+
+        if (!ratingValue || ratingValue === "") {
+            allRatingsValid = false;  
+            break;  
+        }
+    }
+
+    if (!allRatingsValid) {
+        Swal.fire({
+            title: 'Oops!',
+            text: 'Please rate all required fields.',
+            icon: 'error',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonText: 'Okay',
+            confirmButtonColor: '#0054a6',
+        });
+        return;  // Stop form submission
+    }
+
+    var formData = {
+            ticket_rating: $( "#ticket_rating" ).val(),
+            ticket_rating_remarks: $( "#ticket_rating_remarks" ).val(),
+            eval_QA: $( "#eval_QA" ).val(),
+            eval_QB: $( "#eval_QB" ).val(),
+            eval_QC: $( "#eval_QC" ).val(),
+            eval_QD: $( "#eval_QD" ).val(),
+            eval_QE: $( "#eval_QE" ).val(),
+            eval_QF: $( "#eval_QF" ).val(),
+            eval_QG: $( "#eval_QG" ).val(),
+            eval_QH: $( "#eval_QH" ).val(),
+            evaluation_remarks: $( "#evaluation_remarks" ).val(),
+        };
+
+        console.log(formData)
+
+        // This disables the button
+        $('#rateTicketFormSubmit').attr('disabled', true)
+        
+        notyf.open({
+            position: {x: 'right', y: 'top'},
+            duration: 2000,
+            ripple: true,
+            message: 'Rating...',
+            background: '#f76707'
+        });
+        $.ajax({
+            type: "POST",
+            url: "/backend/user/addTicketRating",
+            data: formData,
+            dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+            },
+            success: function(response){
+                notyf.dismissAll();
+                if (response.status == 'success'){
+                    notyf.success({
+                        position: {x: 'right', y: 'top'},
+                        duration: 2000,
+                        ripple: true,
+                        message: response.message,
+                    });
+
+                    $('form#rateTicketForm')[0].reset();
+
+                    location.reload();
+                }
+                
+            },
+            error: function(response) {
+                notyf.dismissAll();
+                if (response.responseJSON.status == 'error'){
+                    notyf.error({
+                        position: {x: 'right', y: 'top'},
+                        duration: 2000,
+                        ripple: true,
+                        message: response.responseJSON.message,
+                    });
+                }
+                else {
+                    Swal.fire({
+                        title: 'Oops!',
+                        text: 'There was an error while processing. Please try again.',
+                        icon: 'error',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        confirmButtonText: 'Okay',
+                        confirmButtonColor: '#0054a6',
+                    })  
+                }
+
+                $('#rateTicketFormSubmit').attr('disabled', false)
+            }
+        });
+    });

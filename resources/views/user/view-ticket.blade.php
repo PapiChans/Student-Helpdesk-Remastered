@@ -1,10 +1,155 @@
 <x-user-layout>
   @slot('customCSS')
-
+  <link href="{{ asset('libs/star-rating/dist/star-rating.min.css')}}" rel="stylesheet" />
   @endslot
 
   @slot('modals')
-
+<!-- Add Admin Modal -->
+<div class="modal modal-blur fade" id="rateTicket-modal" tabindex="-1" style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Rate the Helpdesk Service</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="rateTicketForm" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label">Ticket Rating <span class="text-danger">*</span></label>
+                        <div class="input-group mb-2">
+                            <select class="star-rating" id="ticket_rating">
+                                <option value="">Select a rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Good</option>
+                                <option value="3">Average</option>
+                                <option value="2">Fair</option>
+                                <option value="1">Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Remarks (Optional)</label>
+                        <input type="text" id="ticket_rating_remarks" class="form-control" maxlength="60" placeholder="Remarks"/>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label mb-2">Evaluation</label>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">A. Responsiveness: The willingness to help, assist, and provide prompt service to citizens/clients <span class="text-danger">*</span></label>
+                        <div class="input-group mb-2">
+                            <select class="star-rating" id="eval_QA">
+                                <option value="">Select a rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Good</option>
+                                <option value="3">Average</option>
+                                <option value="2">Fair</option>
+                                <option value="1">Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">B. Reliability(Quality): Provision of what was promised with zero to a minimal error <span class="text-danger">*</span></label>
+                        <div class="input-group mb-2">
+                            <select class="star-rating" id="eval_QB">
+                                <option value="">Select a rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Good</option>
+                                <option value="3">Average</option>
+                                <option value="2">Fair</option>
+                                <option value="1">Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">C. Access & Facilities: The convenience of location, ample amenities for comfortable transactions <span class="text-danger">*</span></label>
+                        <div class="input-group mb-2">
+                            <select class="star-rating" id="eval_QC">
+                                <option value="">Select a rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Good</option>
+                                <option value="3">Average</option>
+                                <option value="2">Fair</option>
+                                <option value="1">Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">D. Communication: The act of keeping clients informed in a language they can easily understand <span class="text-danger">*</span></label>
+                        <div class="input-group mb-2">
+                            <select class="star-rating" id="eval_QD">
+                                <option value="">Select a rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Good</option>
+                                <option value="3">Average</option>
+                                <option value="2">Fair</option>
+                                <option value="1">Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">E. Costs: The satisfaction with timeliness of the billing, billing process/es <span class="text-danger">*</span></label>
+                        <div class="input-group mb-2">
+                            <select class="star-rating" id="eval_QE">
+                                <option value="">Select a rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Good</option>
+                                <option value="3">Average</option>
+                                <option value="2">Fair</option>
+                                <option value="1">Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">F. Integrity: Assurance that there is honesty, justice, fairness, and trust in service <span class="text-danger">*</span></label>
+                        <div class="input-group mb-2">
+                            <select class="star-rating" id="eval_QF">
+                                <option value="">Select a rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Good</option>
+                                <option value="3">Average</option>
+                                <option value="2">Fair</option>
+                                <option value="1">Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">G. Assurance: The capability of frontline staff to perform their duties <span class="text-danger">*</span></label>
+                        <div class="input-group mb-2">
+                            <select class="star-rating" id="eval_QG">
+                                <option value="">Select a rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Good</option>
+                                <option value="3">Average</option>
+                                <option value="2">Fair</option>
+                                <option value="1">Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">H. Outcome: Extent of achieving outcomes or realizing the intended benefits of government services <span class="text-danger">*</span></label>
+                        <div class="input-group mb-2">
+                            <select class="star-rating" id="eval_QH">
+                                <option value="">Select a rating</option>
+                                <option value="5">Excellent</option>
+                                <option value="4">Good</option>
+                                <option value="3">Average</option>
+                                <option value="2">Fair</option>
+                                <option value="1">Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Evaluation Remarks (Optional)</label>
+                        <input type="text" id="evaluation_remarks" class="form-control" maxlenght="60" placeholder="Remarks"/>
+                    </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="submit" id="rateTicketFormSubmit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
   @endslot
 
   @slot('content')
@@ -87,6 +232,7 @@
 
   @slot('customJS')
   <script src="{{ asset('libs/bootstrap/validation.js')}}" defer></script>
+  <script src="{{ asset('libs/star-rating/dist/star-rating.min.js')}}" defer></script>
   <script src="{{ asset('js/ajax/user/view-ticket.ajax.js')}}" defer></script>
   @endslot
 </x-user-layout>

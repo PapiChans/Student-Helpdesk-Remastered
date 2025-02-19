@@ -379,7 +379,7 @@ class TicketController extends Controller
 
                 return response()->json([
                     'status' => 'success',
-                    'message' => "Ticket Resolved.",
+                    'message' => "Ticket Closed.",
                 ], 200);
             }
         }

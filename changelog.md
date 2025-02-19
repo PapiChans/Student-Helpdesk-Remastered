@@ -223,3 +223,9 @@
 - Add Backend Controllers and Routes
 - Admin: Can you Resolve and Close Tickets
 - Add views layout if the Ticket are close or resolved.
+
+**v0.5.26**
+- February 19, 2025
+- Add Library: Star Rating JS
+- Adjust Ticket Controller, Closing Ticket grammar error
+- Initiate Rating and Evaluation form for Users
