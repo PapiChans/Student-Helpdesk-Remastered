@@ -518,6 +518,7 @@ function changeForm(status) {
             <div class="col-12 justify-content-center d-flex">
                 <a class="btn btn-info m-1" data-bs-toggle="offcanvas" href="#trailOffCanvas" role="button" aria-controls="offcanvasEnd">View trail</a>
                 <button class="btn btn-success m-1" id="close_Button" onclick="closeTicket()">Close Ticket</button>
+                <button class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#rateTicket-modal">Ratings</button>
             </div>
         </div>
     </div>
@@ -532,7 +533,7 @@ function changeForm(status) {
         </div>
         <div class="col-12 justify-content-center d-flex">
             <a class="btn btn-info m-1" data-bs-toggle="offcanvas" href="#trailOffCanvas" role="button" aria-controls="offcanvasEnd">View trail</a>
-            <button class="btn btn-info m-1">View Rating</button>
+            <button class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#rateTicket-modal">Ratings</button>
         </div>
     </div>
     `
@@ -542,4 +543,268 @@ function changeForm(status) {
     else if (status == 'Closed') {
         formshoworhide.append(closed_layout)
     }
+
+    checkTicketRatings(ticket_number);
 }
+
+// Change Office Function
+$( "#reassignOfficeForm" ).submit(function( event ) {
+    // Prevent the form from submitting
+    event.preventDefault();
+
+    var formData = {
+        ticket_id: $(" #ticket_Id_info").val(),
+        office_id: $( "#re_assign_office" ).val(),
+    };
+
+    // Check if the form is valid using HTML5 validation
+    if (!this.checkValidity()) {
+        return;  // Stop further execution
+    }
+
+    // This disables the button
+    $('#reassignOfficeFormSubmit').attr('disabled', true)
+
+    notyf.open({
+        position: {x: 'right', y: 'top'},
+        duration: 2000,
+        ripple: true,
+        message: 'Saving...',
+        background: '#f76707'
+    });
+    $.ajax({
+        type: "POST",
+        url: "/backend/admin/changeTicketOffice",
+        data: formData,
+        dataType: "json",
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            notyf.dismissAll();
+            if (response.status == 'success'){
+                notyf.success({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.message,
+                });
+
+                $('form#reassignOfficeForm')[0].reset();
+
+                location.reload();
+            }
+            
+        },
+        error: function(response) {
+            notyf.dismissAll();
+            if (response.responseJSON.status == 'error'){
+                notyf.error({
+                    position: {x: 'right', y: 'top'},
+                    duration: 2000,
+                    ripple: true,
+                    message: response.responseJSON.message,
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'There was an error while processing. Please try again.',
+                    icon: 'error',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: 'Okay',
+                    confirmButtonColor: '#0054a6',
+                })  
+            }
+
+            $('#reassignOfficeFormSubmit').attr('disabled', false)
+        }
+    });
+});
+
+// Custom function to add text fro ticket rating
+function RatingConvert(number) {
+    let RatingSpan = null;
+    if (number == 1) {
+        RatingSpan = `<span class="text-danger">${number} - Poor</span>`
+    }
+    else if (number == 2) {
+        RatingSpan = `<span class="text-danger">${number} - Fair</span>`
+    }
+    else if (number == 3) {
+        RatingSpan = `<span class="text-warning">${number} - Average</span>`
+    }
+    else if (number == 4) {
+        RatingSpan = `<span class="text-info">${number} - Good</span>`
+    }
+    else if (number == 5) {
+        RatingSpan = `<span class="text-success">${number} - Excellent</span>`
+    }
+
+    return RatingSpan;
+}
+
+function checkTicketRatings(ticket_number) {
+    $.ajax({
+        type: "GET",
+        url: `/backend/admin/checkTicketRatings/${ticket_number}`,
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            if (response.found == true) {
+                let ratingData = response.rating;
+                let evalData = response.evaluation;
+                let Ratingremarks = ratingData.remarks ? ratingData.remarks : '';
+                let Evalremarks = evalData.remarks ? evalData.remarks : '';
+
+
+                $('#rateTicketFormSubmit').attr('disabled', true)
+                let ticket_rate_body = $('#ticket_rate_body');
+    
+                ticket_rate_body.html(null);
+    
+                let layoutItem =
+                    `
+                    <div class="alert alert-success" role="alert">
+                            <div class="d-flex">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2"><path d="M5 12l5 5l10 -10"></path></svg>
+                            </div>
+                                <div>
+                                    This ticket has been rated.
+                                </div>
+                            </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ticket Rating</label>
+                        <div class="input-group mb-2">
+                            <h4>Rating: ${RatingConvert(ratingData.rating)}</h4>
+                        </div>
+                        <div class="input-group mb-2">
+                            <h4>Remarks: ${Ratingremarks}</h4>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Evaluation</label>
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>A. Responsiveness: The willingness to help, assist, and provide prompt service to citizens/clients:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QA)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>B. Reliability(Quality): Provision of what was promised with zero to a minimal error:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QB)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>C. Access & Facilities: The convenience of location, ample amenities for comfortable transactions:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QC)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>D. Communication: The act of keeping clients informed in a language they can easily understand:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QD)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>E. Costs: The satisfaction with timeliness of the billing, billing process/es:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QE)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>F. Integrity: Assurance that there is honesty, justice, fairness, and trust in service:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QF)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>G. Assurance: The capability of frontline staff to perform their duties:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QG)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>H. Outcome: Extent of achieving outcomes or realizing the intended benefits of government services:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QH)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-1">
+                                    <h4>Remarks:</h4>
+                                </div>
+                                <div class="col-11">
+                                    <h4>${Evalremarks}</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    `;
+    
+                ticket_rate_body.append(layoutItem);
+            }
+            else {
+                $('#rateTicketFormSubmit').attr('disabled', false)
+            }
+
+        },        
+        error: function(x) {
+            console.log(x)
+            notyf.error({
+                position: {x: 'right', y: 'top'},
+                duration: 2000,
+                ripple: true,
+                message: "There was an error while retrieving rate info.",
+            });
+        }
+    }
+)};

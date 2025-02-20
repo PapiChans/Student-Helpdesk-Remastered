@@ -11,7 +11,7 @@ class Evaluation extends Model
     use HasFactory;
 
     // Protected Table Name
-    protected $table =  'evaluation';
+    protected $table =  'evaluations';
 
     // Primary Key
     protected $primaryKey = 'evaluation_id';

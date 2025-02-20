@@ -229,3 +229,12 @@
 - Add Library: Star Rating JS
 - Adjust Ticket Controller, Closing Ticket grammar error
 - Initiate Rating and Evaluation form for Users
+
+
+**v0.5.27**
+- February 20, 2025
+- Ticket Rating Completed for Admin and User
+- FIX: Missing Re assign office backend
+- Evaluation Model Modified
+- Ticket Rating Migration Modified
+- Add Backend Controllers and Routes

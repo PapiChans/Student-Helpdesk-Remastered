@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('ticket_id');
             $table->uuid('user_id');
             $table->integer('rating')->nullable(false);
-            $table->string('remarks')->nullable(false);
+            $table->string('remarks')->nullable();
             $table->timestamps();
 
             // Foreign Key Assignment

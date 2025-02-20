@@ -25,6 +25,7 @@ Route::post('/backend/admin/addTicketComment', [TicketController::class, 'backen
 Route::post('/backend/admin/changeTicketOffice', [TicketController::class, 'backend_changeTicketOffice']);
 Route::put('/backend/admin/resolveTicket/{ticket_number}', [TicketController::class, 'backend_resolveTicket']);
 Route::put('/backend/admin/closeTicket/{ticket_number}', [TicketController::class, 'backend_closeTicket']);
+Route::get('/backend/admin/checkTicketRatings/{ticket_number}', [TicketController::class, 'backend_checkTicketRatings']);
 
 // Admin Management
 Route::post('/backend/admin/addAdmin', [AdminManagementController::class, 'backend_addAdmin']);

@@ -13,6 +13,8 @@ use App\Models\CustomUserTable;
 use App\Models\UserProfile;
 use App\Models\Ticket;
 use App\Models\TicketComment;
+use App\Models\TicketRating;
+use App\Models\Evaluation;
 use App\Models\Office;
 use App\Models\AuditTrail;
 
@@ -269,6 +271,122 @@ class TicketController extends Controller
             ], 409);
         }
     }
+
+    public function backend_addTicketRating(Request $request, $ticket_number)
+    {
+        if (Auth::check()) {
+            // Check if the user is an admin
+            if (Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                // Get User
+                $user = Auth::user();
+
+                // Get the Ticket
+                $ticket = Ticket::where('ticket_number', $ticket_number)->first();
+
+                // Create Ticket Rating
+                $addTicketRating = TicketRating::create([
+                    'rating_id' => (string) Str::uuid(),
+                    'ticket_id' => $ticket->ticket_id,
+                    'user_id' => $user->user_id,
+                    'rating' => $request->ticket_rating,
+                    'remarks' => $request->ticket_rating_remarks,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+                // Create Ticket Evaluation
+                $addTicketRating = Evaluation::create([
+                    'evaluation_id' => (string) Str::uuid(),
+                    'reference' => $ticket->ticket_number,
+                    'user_id' => $user->user_id,
+                    'status' => 'Rated',
+                    'QA' => $request->eval_QA,
+                    'QB' => $request->eval_QB,
+                    'QC' => $request->eval_QC,
+                    'QD' => $request->eval_QD,
+                    'QE' => $request->eval_QE,
+                    'QF' => $request->eval_QF,
+                    'QG' => $request->eval_QG,
+                    'QH' => $request->eval_QH,
+                    'remarks' => $request->evaluation_remarks,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+                // For Trail
+                $reference = $ticket_number;
+                $action = 'Rated and Evaluated';
+                $description = $ticket_number." ".'has been rated and evaluated.';
+                $this->backend_addTrail($reference, $action, $description);
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Add Rating Successful.',
+                ], 201);
+            }
+        }
+        else {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_checkTicketRatings(Request $request, $ticket_number)
+    {
+        if (Auth::check()) {
+            // Check if the user is an admin
+            if (Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                // Find Ticket
+                $ticket = Ticket::where('ticket_number' , $ticket_number)->first();
+
+                $evaluation = Evaluation::where('reference', $ticket_number)->first();
+
+                $rating = TicketRating::where('ticket_id', $ticket->ticket_id)->first();
+
+                if ($evaluation && $rating) {
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => "Access Granted.",
+                        'found' => true,
+                        'rating' => $rating,
+                        'evaluation' => $evaluation,
+                    ], 200);
+                }
+                else {
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => "Access Granted.",
+                        'found' => false,
+                        'rating' => $rating,
+                        'evaluation' => $evaluation,
+                    ], 200);
+                }
+            }
+        }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
 
     // Add Trail
     public function backend_addTrail($reference, $action, $description)

@@ -371,10 +371,198 @@ function changeForm(status) {
     else if (status == 'Closed') {
         formshoworhide.append(closed_layout)
     }
+
+    checkTicketRatings(ticket_number);
+
 }
 
 // Introduce Star rating
 var stars = new StarRating('.star-rating');
+
+// Custom function to add text fro ticket rating
+function RatingConvert(number) {
+    let RatingSpan = null;
+    if (number == 1) {
+        RatingSpan = `<span class="text-danger">${number} - Poor</span>`
+    }
+    else if (number == 2) {
+        RatingSpan = `<span class="text-danger">${number} - Fair</span>`
+    }
+    else if (number == 3) {
+        RatingSpan = `<span class="text-warning">${number} - Average</span>`
+    }
+    else if (number == 4) {
+        RatingSpan = `<span class="text-info">${number} - Good</span>`
+    }
+    else if (number == 5) {
+        RatingSpan = `<span class="text-success">${number} - Excellent</span>`
+    }
+
+    return RatingSpan;
+}
+
+function checkTicketRatings(ticket_number) {
+    $.ajax({
+        type: "GET",
+        url: `/backend/user/checkTicketRatings/${ticket_number}`,
+        headers: {
+            'X-CSRF-TOKEN': csrfToken  // Add CSRF token to the request headers
+        },
+        success: function(response){
+            if (response.found == true) {
+                let ratingData = response.rating;
+                let evalData = response.evaluation;
+                let Ratingremarks = ratingData.remarks ? ratingData.remarks : '';
+                let Evalremarks = evalData.remarks ? evalData.remarks : '';
+
+
+                $('#rateTicketFormSubmit').attr('disabled', true)
+                let ticket_rate_body = $('#ticket_rate_body');
+    
+                ticket_rate_body.html(null);
+    
+                let layoutItem =
+                    `
+                    <div class="alert alert-success" role="alert">
+                            <div class="d-flex">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2"><path d="M5 12l5 5l10 -10"></path></svg>
+                            </div>
+                                <div>
+                                    This ticket has been rated.
+                                </div>
+                            </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ticket Rating</label>
+                        <div class="input-group mb-2">
+                            <h4>Rating: ${RatingConvert(ratingData.rating)}</h4>
+                        </div>
+                        <div class="input-group mb-2">
+                            <h4>Remarks: ${Ratingremarks}</h4>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Evaluation</label>
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>A. Responsiveness: The willingness to help, assist, and provide prompt service to citizens/clients:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QA)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>B. Reliability(Quality): Provision of what was promised with zero to a minimal error:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QB)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>C. Access & Facilities: The convenience of location, ample amenities for comfortable transactions:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QC)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>D. Communication: The act of keeping clients informed in a language they can easily understand:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QD)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>E. Costs: The satisfaction with timeliness of the billing, billing process/es:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QE)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>F. Integrity: Assurance that there is honesty, justice, fairness, and trust in service:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QF)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>G. Assurance: The capability of frontline staff to perform their duties:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QG)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-9">
+                                    <h4>H. Outcome: Extent of achieving outcomes or realizing the intended benefits of government services:</h4>
+                                </div>
+                                <div class="col-3">
+                                    <h3>${RatingConvert(evalData.QH)}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <div class="col-12 row">
+                                <div class="col-1">
+                                    <h4>Remarks:</h4>
+                                </div>
+                                <div class="col-11">
+                                    <h4>${Evalremarks}</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    `;
+    
+                ticket_rate_body.append(layoutItem);
+            }
+            else {
+                $('#rateTicketFormSubmit').attr('disabled', false)
+            }
+
+        },        
+        error: function() {
+            notyf.error({
+                position: {x: 'right', y: 'top'},
+                duration: 2000,
+                ripple: true,
+                message: "There was an error while retrieving rate info.",
+            });
+        }
+    }
+)};
 
 // Add Comment Function
 $( "#rateTicketForm" ).submit(function( event ) {
@@ -445,7 +633,7 @@ $( "#rateTicketForm" ).submit(function( event ) {
         });
         $.ajax({
             type: "POST",
-            url: "/backend/user/addTicketRating",
+            url: `/backend/user/addTicketRating/${ticket_number}`,
             data: formData,
             dataType: "json",
             headers: {

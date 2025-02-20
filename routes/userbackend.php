@@ -19,4 +19,6 @@ Route::get('/backend/user/getOffice', [TicketController::class, 'backend_getOffi
 Route::get('/backend/user/getTicketInfo/{ticket_number}', [TicketController::class, 'backend_getTicketInfo']);
 Route::get('/backend/user/getTicketComment/{ticket_number}', [TicketController::class, 'backend_getTicketComment']);
 Route::get('/backend/user/getAuditTrails/{ticket_number}', [TicketController::class, 'backend_getAuditTrail']);
+Route::get('/backend/user/checkTicketRatings/{ticket_number}', [TicketController::class, 'backend_checkTicketRatings']);
 Route::post('/backend/user/addTicketComment', [TicketController::class, 'backend_addTicketComment']);
+Route::post('/backend/user/addTicketRating/{ticket_number}', [TicketController::class, 'backend_addTicketRating']);

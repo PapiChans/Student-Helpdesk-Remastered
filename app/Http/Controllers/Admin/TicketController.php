@@ -14,6 +14,8 @@ use App\Models\AdminProfile;
 use App\Models\UserProfile;
 use App\Models\Ticket;
 use App\Models\TicketComment;
+use App\Models\TicketRating;
+use App\Models\Evaluation;
 use App\Models\Office;
 use App\Models\AuditTrail;
 
@@ -381,6 +383,53 @@ class TicketController extends Controller
                     'status' => 'success',
                     'message' => "Ticket Closed.",
                 ], 200);
+            }
+        }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_checkTicketRatings(Request $request, $ticket_number)
+    {
+        if (Auth::check()) {
+            // Check if the user is not an admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                // Find Ticket
+                $ticket = Ticket::where('ticket_number' , $ticket_number)->first();
+
+                $evaluation = Evaluation::where('reference', $ticket_number)->first();
+
+                $rating = TicketRating::where('ticket_id', $ticket->ticket_id)->first();
+
+                if ($evaluation && $rating) {
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => "Access Granted.",
+                        'found' => true,
+                        'rating' => $rating,
+                        'evaluation' => $evaluation,
+                    ], 200);
+                }
+                else {
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => "Access Granted.",
+                        'found' => false,
+                        'rating' => $rating,
+                        'evaluation' => $evaluation,
+                    ], 200);
+                }
             }
         }
         else 
