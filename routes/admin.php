@@ -61,7 +61,7 @@ Route::get('/admin/admin-management', function () {
         // Check if the user is logged in
         if (Auth::user()->is_admin) {
             // If the user is not an admin.
-            if ($admincheck->is_master_admin != true || $admincheck->is_technician != true) {
+            if ($admincheck->is_master_admin != true && $admincheck->is_technician != true) {
                 return redirect()->route('admin/home');
             }
             else {
@@ -78,3 +78,19 @@ Route::get('/admin/admin-management', function () {
         return redirect()->route('login');
     }
 })->name('admin/admin-management');
+
+// Reports Page
+Route::get('admin/reports', function () {
+    if (Auth::check()) {
+        // Check if the user is logged in
+        if (!Auth::user()->is_admin) {
+            // If the user is an admin, redirect to admin home page
+            return redirect()->route('user/home');
+        } else {
+            return view('admin/reports');
+        }
+    } else {
+        // If the user is not authenticated, redirect to login page
+        return redirect()->route('login');
+    }
+})->name('admin/reports');

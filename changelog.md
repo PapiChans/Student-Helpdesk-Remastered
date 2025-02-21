@@ -238,3 +238,10 @@
 - Evaluation Model Modified
 - Ticket Rating Migration Modified
 - Add Backend Controllers and Routes
+
+**v0.5.28**
+- February 21, 2025
+- Add Report Page
+- Permissions Update: Technicians cannot now delete any Admin and Office Records
+- Permissions Update: Techinician can now view the Admin Management
+- Add Admin Routes

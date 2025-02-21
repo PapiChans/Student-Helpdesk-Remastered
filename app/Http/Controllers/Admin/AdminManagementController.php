@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use App\Models\CustomUserTable;
 use App\Models\AdminProfile;
 use App\Models\Office;
+use App\Models\Ticket;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -243,13 +244,26 @@ class AdminManagementController extends Controller
 
                 if ($adminprofile) {   
                     $admin = CustomUserTable::where('user_id', $adminprofile->user_id)->first();
-                    
-                    $adminprofile->delete();
-                    $admin->delete();
-                    return response()->json([
-                        'status' => 'success',
-                        'message' => "Delete Office Successful.",
-                    ], 200);
+
+                    // Assign the Current User
+                    $user = Auth::user();
+                    // Fetch the Admin Profile of User
+                    $currentUser = AdminProfile::where('user_id', $user->user_id)->first();
+
+                    if ($currentUser->is_technician == true && $currentUser->is_master_admin == false) {
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => "Unauthorized Access.",
+                        ], 401);
+                    }
+                    else {
+                        $adminprofile->delete();
+                        $admin->delete();
+                        return response()->json([
+                            'status' => 'success',
+                            'message' => "Delete Office Successful.",
+                        ], 200);
+                    }
                 }
                 else {
                     return response()->json([
@@ -455,14 +469,27 @@ class AdminManagementController extends Controller
                 ], 409);
             } else {
                 $office = Office::where('office_id', $office_id)->first();
+                $ticket = Ticket::where('office_id', $office_id)->first();
+
+                // Assign the Current User
+                $user = Auth::user();
+                // Fetch the Admin Profile of User
+                $currentUser = AdminProfile::where('user_id', $user->user_id)->first();
+
+                if ($currentUser->is_technician == true && $currentUser->is_master_admin == false) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => "Unauthorized Access.",
+                    ], 401);
+                }
 
                 if ($office) {   
                     $admins = AdminProfile::where('office_id', $office_id)->first();
                     
-                    if ($admins) {
+                    if ($admins || $ticket) {
                         return response()->json([
                             'status' => 'error',
-                            'message' => "There are Admin/s assigned in this office.",
+                            'message' => "There are Admin/s or Ticket/s assigned in this office.",
                         ], 409);
                     }
                     else {
