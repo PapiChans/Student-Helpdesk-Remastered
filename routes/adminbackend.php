@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminManagementController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\Admin\ReportController;
 
 // Get Profile
 Route::get('/backend/admin/getProfile', [ProfileController::class, 'backend_getAdminProfile']);
@@ -39,3 +40,6 @@ Route::get('/backend/admin/getOffice', [AdminManagementController::class, 'backe
 Route::get('/backend/admin/getOneOffice/{office_id}', [AdminManagementController::class, 'backend_getOneOffice']);
 Route::put('/backend/admin/editOffice/{office_id}', [AdminManagementController::class, 'backend_editOffice']);
 Route::delete('/backend/admin/removeOffice/{office_id}', [AdminManagementController::class, 'backend_removeOffice']);
+
+// Reports
+Route::get('/backend/admin/getReportTicketStatus', [ReportController::class, 'backend_getReportTicketStatus']);

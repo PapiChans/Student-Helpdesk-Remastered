@@ -245,3 +245,9 @@
 - Permissions Update: Technicians cannot now delete any Admin and Office Records
 - Permissions Update: Techinician can now view the Admin Management
 - Add Admin Routes
+
+**v0.5.29**
+- February 22, 2025
+- Add Backend Controllers and Routes
+- Admin can now Generate report for Ticket Status counting and also printable
+- Add more File Libraries of DataTables for file exporting
