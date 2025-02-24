@@ -43,3 +43,5 @@ Route::delete('/backend/admin/removeOffice/{office_id}', [AdminManagementControl
 
 // Reports
 Route::get('/backend/admin/getReportTicketStatus', [ReportController::class, 'backend_getReportTicketStatus']);
+Route::get('/backend/admin/getReportTicketRating', [ReportController::class, 'backend_getReportTicketRating']);
+Route::get('/backend/admin/getReportEvaluations', [ReportController::class, 'backend_getReportEvaluations']);

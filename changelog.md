@@ -251,3 +251,8 @@
 - Add Backend Controllers and Routes
 - Admin can now Generate report for Ticket Status counting and also printable
 - Add more File Libraries of DataTables for file exporting
+
+**v0.5.30**
+- February 24, 2025
+- Add Backend Controllers and Routes
+- Add Monthly Ticket Ratings and Monthly Evaluation Report

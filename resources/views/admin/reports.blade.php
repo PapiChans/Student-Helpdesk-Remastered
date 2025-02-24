@@ -40,30 +40,34 @@
         </div>
         <div class="mt-5">
           <h1>Monthly Ticket Rating Report</h1>
-          <table id="ticketStatusTable" class="display table hover table-striped responsive nowrap" >
+          <table id="ticketRatingTable" class="display table hover table-striped responsive nowrap" >
               <thead>
                   <tr>
-                      <th class="text-center">Name</th>
-                      <th class="text-center">Gender</th>
                       <th class="text-center">Office</th>
-                      <th class="text-center">Master Admin</th>
-                      <th class="text-center">Technician</th>
-                      <th class="text-center">Actions</th>
+                      <th class="text-center">Excellent</th>
+                      <th class="text-center">Good</th>
+                      <th class="text-center">Average</th>
+                      <th class="text-center">Fair</th>
+                      <th class="text-center">Poor</th>
+                      <th class="text-center">Score</th>
+                      <th class="text-center">Overall</th>
                   </tr>
               </thead>
           </table>
         </div>
         <div class="mt-5">
-          <h1>Monthly Office Evaluation Report</h1>
-          <table id="ticketStatusTable" class="display table hover table-striped responsive nowrap" >
+          <h1>Monthly Evaluation Report</h1>
+          <table id="EvaluationTable" class="display table hover table-striped responsive nowrap" >
               <thead>
                   <tr>
-                      <th class="text-center">Name</th>
-                      <th class="text-center">Gender</th>
-                      <th class="text-center">Office</th>
-                      <th class="text-center">Master Admin</th>
-                      <th class="text-center">Technician</th>
-                      <th class="text-center">Actions</th>
+                      <th class="text-center">Question</th>
+                      <th class="text-center">Excellent</th>
+                      <th class="text-center">Good</th>
+                      <th class="text-center">Average</th>
+                      <th class="text-center">Fair</th>
+                      <th class="text-center">Poor</th>
+                      <th class="text-center">Average Score</th>
+                      <th class="text-center">Overall</th>
                   </tr>
               </thead>
           </table>
