@@ -79,6 +79,22 @@ Route::get('/admin/admin-management', function () {
     }
 })->name('admin/admin-management');
 
+// Knowledgebase Page
+Route::get('admin/knowledgebase', function () {
+    if (Auth::check()) {
+        // Check if the user is logged in
+        if (!Auth::user()->is_admin) {
+            // If the user is an admin, redirect to admin home page
+            return redirect()->route('user/home');
+        } else {
+            return view('admin/knowledgebase');
+        }
+    } else {
+        // If the user is not authenticated, redirect to login page
+        return redirect()->route('login');
+    }
+})->name('admin/knowledgebase');
+
 // Reports Page
 Route::get('admin/reports', function () {
     if (Auth::check()) {

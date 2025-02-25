@@ -256,3 +256,11 @@
 - February 24, 2025
 - Add Backend Controllers and Routes
 - Add Monthly Ticket Ratings and Monthly Evaluation Report
+
+**v0.5.31**
+- February 25, 2025
+- Add Backend Controllers and Routes
+- Add Knowledgebase Controller
+- Add Knowledgebase Page
+- Add Knowledgebase Feature: In Progress
+- Edit Admin Layout Navbar Components

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminManagementController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\KnowledgebaseController;
 
 // Get Profile
 Route::get('/backend/admin/getProfile', [ProfileController::class, 'backend_getAdminProfile']);
@@ -45,3 +46,8 @@ Route::delete('/backend/admin/removeOffice/{office_id}', [AdminManagementControl
 Route::get('/backend/admin/getReportTicketStatus', [ReportController::class, 'backend_getReportTicketStatus']);
 Route::get('/backend/admin/getReportTicketRating', [ReportController::class, 'backend_getReportTicketRating']);
 Route::get('/backend/admin/getReportEvaluations', [ReportController::class, 'backend_getReportEvaluations']);
+
+// Knowledgebase
+Route::post('/backend/admin/addFolder', [KnowledgebaseController::class, 'backend_addFolder']);
+Route::get('/backend/admin/getFolders', [KnowledgebaseController::class, 'backend_getFolders']);
+Route::get('/backend/admin/getTopics/{folder_id}', [KnowledgebaseController::class, 'backend_getTopics']);
