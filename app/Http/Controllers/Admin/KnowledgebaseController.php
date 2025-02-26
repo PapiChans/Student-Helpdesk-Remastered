@@ -104,6 +104,7 @@ class KnowledgebaseController extends Controller
                 ], 409);
             } else {
 
+                $folder = KBFolder::where('folder_id', $folder_id)->get();
                 $topics = KBTopic::where('folder_id', $folder_id)->get();
 
                 }
@@ -111,6 +112,7 @@ class KnowledgebaseController extends Controller
                     return response()->json([
                         'status' => 'success',
                         'message' => "Access Granted.",
+                        'folder' => $folder,
                         'data' => $topics
                     ], 200);
                 }
@@ -118,12 +120,162 @@ class KnowledgebaseController extends Controller
                     return response()->json([
                         'status' => 'error',
                         'message' => "Data not found.",
+                        'folder' => $folder,
                         'data' => $topics
                     ], 200);
                 }
             }
         else 
         {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_getFolderInfo(Request $request, $folder_id)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                $folder = KBFolder::where('folder_id', $folder_id)->first();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Access Granted.",
+                    'data' => $folder
+                ], 200);
+
+                }
+            }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_editFolder(Request $request, $folder_id)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                $folder = KBFolder::where('folder_id', $folder_id)->first();
+
+                $folder->folder_name = $request->folder_name;
+                $folder->updated_at = now();
+                $folder->save();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Edit Folder Succesfully.",
+                ], 200);
+
+                }
+            }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_deleteFolder(Request $request, $folder_id)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                $folder = KBFolder::where('folder_id', $folder_id)->first();
+                
+                // Search for Topic First
+                $topics = KBTopic::where('folder_id', $folder_id)->first();
+                if ($topics)
+                {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => "There are topic/s in this folder",
+                    ], 409);
+                }
+                else {
+                    $folder->delete();
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => "Delete Folder Successfully.",
+                    ], 200);
+                }
+                }
+            }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_addTopic(Request $request)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+                // Validate incoming data
+                $validator = Validator::make($request->all(), [
+                    'topic_name' => 'required|string|max:50',
+                ]);
+
+                // Create Office
+                $topic = KBTopic::create([
+                    'topic_id' => (string) Str::uuid(),
+                    'folder_id' => $request->folder_id,
+                    'title' => $request->topic_name,
+                    'content' => 'No Content Yet.',
+                    'likes' => 0,
+                    'dislikes' => 0,
+                    'status' => "Unpublished",
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Add Topic Successful.',
+                ], 201);
+            }
+        }
+        else {
             // If the User is Anonymous
             return response()->json([
                 'status' => 'error',

@@ -51,3 +51,7 @@ Route::get('/backend/admin/getReportEvaluations', [ReportController::class, 'bac
 Route::post('/backend/admin/addFolder', [KnowledgebaseController::class, 'backend_addFolder']);
 Route::get('/backend/admin/getFolders', [KnowledgebaseController::class, 'backend_getFolders']);
 Route::get('/backend/admin/getTopics/{folder_id}', [KnowledgebaseController::class, 'backend_getTopics']);
+Route::get('/backend/admin/getFolderInfo/{folder_id}', [KnowledgebaseController::class, 'backend_getFolderInfo']);
+Route::put('/backend/admin/editFolder/{folder_id}', [KnowledgebaseController::class, 'backend_editFolder']);
+Route::delete('/backend/admin/deleteFolder/{folder_id}', [KnowledgebaseController::class, 'backend_deleteFolder']);
+Route::post('/backend/admin/addTopic', [KnowledgebaseController::class, 'backend_addTopic']);

@@ -16,7 +16,7 @@
                 <form id="addFolderForm" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label class="form-label">Folder Name <span class="text-danger">*</span></label>
-                        <input type="text" id="add_folder" class="form-control" placeholder="Add Folder Name" maxlength=40 required/>
+                        <input type="text" id="add_folder" class="form-control" placeholder="Add Folder Name" maxlength=30 required/>
                     </div>
             </div>
                 <div class="modal-footer">
@@ -40,11 +40,41 @@
                     <div class="mb-3">
                         <input type="hidden" id="edit_folder_id"/>
                         <label class="form-label">Folder Name <span class="text-danger">*</span></label>
-                        <input type="text" id="edit_folder" class="form-control" placeholder="Edit Folder Name" maxlength=40 required/>
+                        <input type="text" id="edit_folder" class="form-control" placeholder="Edit Folder Name" maxlength=30 required/>
                     </div>
             </div>
                 <div class="modal-footer">
                     <button type="submit" id="editFolderFormSubmit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Topic Modal -->
+<div class="modal modal-blur fade" id="addTopic-modal" tabindex="-1" style="display: none;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Add Topic</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addTopicForm" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label">Folder<span class="text-danger">*</span></label>
+                            <select class="form-select" id="topic_folder" required>
+                                <option selected="" value="" disabled>Select Folder</option>
+
+                            </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Topic Name <span class="text-danger">*</span></label>
+                        <input type="text" id="add_topic" class="form-control" placeholder="Add Topic Name" maxlength=50 required/>
+                    </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="submit" id="addTopicFormSubmit" class="btn btn-primary">Add</button>
                 </div>
             </form>
         </div>
@@ -62,7 +92,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addFolder-modal">Folder</a>
-                <a class="dropdown-item" href="#">Article</a>
+                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addTopic-modal">Topic</a>
             </div>
         </div>
         </div>
@@ -89,7 +119,11 @@
         </div>
         <div class="col-12 col-lg-7 col-xl-9 d-flex flex-column">
             <div class="card-body scrollable" style="height: 35rem">
-                <h2>Topics</h2>
+                <div class="row" id="topic_title">
+                    <div class="col-12">
+                        <h2>Topics</h2>
+                    </div>
+                </div>
                 <div class="mb-2" id="topic_lists">
                     <div class="d-flex justify-content-center">
                         <h2>Select Folder to See Topic</h2>

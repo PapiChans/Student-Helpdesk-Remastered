@@ -264,3 +264,8 @@
 - Add Knowledgebase Page
 - Add Knowledgebase Feature: In Progress
 - Edit Admin Layout Navbar Components
+
+**v0.5.32**
+- February 25, 2025
+- Add Backend Controllers and Routes
+- Add Knowledgebase Feature: Completed Folder Features
