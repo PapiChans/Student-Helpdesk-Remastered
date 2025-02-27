@@ -212,9 +212,11 @@ function getTopics (folder_id) {
                         `
                         <div class="card m-1" style="cursor:pointer;">
                             <div class="card-body">
-                                    <h4 class="text-primary" onclick="getShabu()">
+                                <a href="/admin/view/knowledgebase?k=${list.topic_id}">
+                                    <h4 class="text-primary">
                                         ${list.title}
                                     </h4>
+                                </a>
                             </div>
                         </div>
                         `;

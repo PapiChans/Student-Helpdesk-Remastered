@@ -55,3 +55,8 @@ Route::get('/backend/admin/getFolderInfo/{folder_id}', [KnowledgebaseController:
 Route::put('/backend/admin/editFolder/{folder_id}', [KnowledgebaseController::class, 'backend_editFolder']);
 Route::delete('/backend/admin/deleteFolder/{folder_id}', [KnowledgebaseController::class, 'backend_deleteFolder']);
 Route::post('/backend/admin/addTopic', [KnowledgebaseController::class, 'backend_addTopic']);
+
+// Knowledgebase: Topic
+Route::get('/backend/admin/getTopicInfo/{topic_id}', [KnowledgebaseController::class, 'backend_getTopicInfo']);
+Route::put('/backend/admin/editTopic/{topic_id}', [KnowledgebaseController::class, 'backend_editTopic']);
+Route::delete('/backend/admin/deleteTopic/{topic_id}', [KnowledgebaseController::class, 'backend_deleteTopic']);

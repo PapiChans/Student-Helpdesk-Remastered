@@ -283,4 +283,105 @@ class KnowledgebaseController extends Controller
             ], 409);
         }
     }
+
+    // Knowledgebase: Topic
+
+    public function backend_getTopicInfo(Request $request, $topic_id)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                $topic = KBTopic::where('topic_id', $topic_id)->first();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Access Granted.",
+                    'data' => $topic
+                ], 200);
+
+                }
+            }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_editTopic(Request $request, $topic_id)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                $topic = KBTopic::where('topic_id', $topic_id)->first();
+
+                $topic->title = $request->title;
+                $topic->folder_id = $request->folder_id;
+                $topic->content = $request->content;
+                $topic->status = $request->status;
+                $topic->updated_at = now();
+                $topic->save();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Edit Folder Succesfully.",
+                ], 200);
+
+                }
+            }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
+
+    public function backend_deleteTopic(Request $request, $topic_id)
+    {
+        if (Auth::check()) {
+            // Check if the user is not admin
+            if (!Auth::user()->is_admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unauthorized Access.",
+                ], 409);
+            } else {
+
+                $topic = KBTopic::where('topic_id', $topic_id)->first();
+
+                $topic->delete();
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Delete Topic Successfully.",
+                ], 200);
+ 
+                }
+            }
+        else 
+        {
+            // If the User is Anonymous
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unauthorized Access.",
+            ], 409);
+        }
+    }
 }

@@ -95,6 +95,21 @@ Route::get('admin/knowledgebase', function () {
     }
 })->name('admin/knowledgebase');
 
+Route::get('admin/view/knowledgebase', function () {
+    if (Auth::check()) {
+        // Check if the user is logged in
+        if (!Auth::user()->is_admin) {
+            // If the user is an admin, redirect to admin home page
+            return redirect()->route('user/home');
+        } else {
+            return view('admin/view-knowledgebase');
+        }
+    } else {
+        // If the user is not authenticated, redirect to login page
+        return redirect()->route('login');
+    }
+})->name('admin/view/knowledgebase');
+
 // Reports Page
 Route::get('admin/reports', function () {
     if (Auth::check()) {
