@@ -7,8 +7,8 @@
 |                     |                     |
 | ------------------- | --------------------|
 | **Description**     | A Student Helpdesk System that remastered from the first finished Capstone Project, optimized and improved system. |
-| **Project Duration**    | December 28, 2024 - Present|
-| **Current Version** | v0.5.33|
+| **Project Duration**    | December 28, 2024 - February 28, 2025|
+| **Current Version** | v0.5.34|
 
 
 

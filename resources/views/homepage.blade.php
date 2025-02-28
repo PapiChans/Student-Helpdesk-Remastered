@@ -41,9 +41,6 @@
                     <li class="nav-item">
                         <a href="#services" class="nav-link">Services</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Knowledgebase</a>
-                    </li>
                 </ul>
                 <a href="{{'/login'}}" class="btn btn-info btn-sm navbar-btn my-lg-0 my-2">Log In</a>
 

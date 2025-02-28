@@ -276,3 +276,10 @@
 - Add Showdown JS
 - Add View Knowledgebase Page (Admin)
 - All Knowledgebase Feature for Admin: Completed
+
+**v0.5.34**
+- February 28, 2025
+- Add Backend Controllers and Routes
+- Add View Knowledgebase Page (User)
+- All Knowledgebase Feature for User: Completed
+- **DECLARATION: STUDENT HELP DESK REMASTERED is now Completed.**
